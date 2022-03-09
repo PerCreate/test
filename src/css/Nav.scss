@@ -1,0 +1,147 @@
+.navbar {
+	background-color: #ffffff !important;
+	font-size: 14px;
+	font-family: Open "Sans";
+	box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.15);
+	height: 5.625rem;
+
+	&-brand {
+		flex-shrink: 0;
+		background-image: url("../img/nav_logo.svg");
+		background-repeat: no-repeat;
+		width: 6rem;
+		height: 4rem;
+	}
+
+	.navbar-collapse {
+		// padding: 2.5rem 5rem;
+		// z-index: 1;
+		// height: 100vh;
+		// width: 100vw;
+		background-color: #fff;
+	}
+
+	.navbar-nav {
+		margin-left: 5rem;
+
+		.nav-item {
+			&.map-point {
+				display: flex;
+				align-items: center;
+
+				&::before {
+					position: relative;
+					display: inline-block;
+					content: "";
+					background-image: url("../img/nav_map_point.svg");
+					background-repeat: no-repeat;
+					width: 1.1rem;
+					height: 1.1rem;
+				}
+			}
+
+			&.dropdown,
+			&.dropleft {
+				.nav-link.dropdown-toggle {
+					&::after {
+						display: none;
+					}
+					&::before {
+						display: none;
+					}
+				}
+				&.hamburger {
+					.nav-link.dropdown-toggle {
+						display: flex;
+						.hamburger {
+							margin-top: 0.1rem;
+							display: block;
+							background-image: url("../img/nav_hamburger.svg");
+							background-repeat: no-repeat;
+							width: 1.1rem;
+							height: 1.1rem;
+						}
+
+						.text {
+							margin-left: 1rem;
+						}
+					}
+				}
+				&.flag {
+					position: relative;
+
+					&::before {
+						position: absolute;
+						left: 1rem;
+						content: attr(value);
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						width: 1.1rem;
+						height: 1.1rem;
+						color: #fff;
+						font-size: 0.6rem;
+						background: #434343;
+						border-radius: 12px;
+					}
+
+					.flag-icon {
+						display: inline-block;
+						content: "";
+						background-image: url("../img/nav_flag.svg");
+						background-repeat: no-repeat;
+						width: 1.1rem;
+						height: 1.1rem;
+					}
+				}
+			}
+
+			&.person {
+				.nav-link {
+					border: 2px solid #eeeeee;
+					border-radius: 8px;
+					width: 2.5rem;
+					height: 2.5rem;
+
+					background-image: url("../img/nav_person.svg");
+					background-repeat: no-repeat;
+					background-position: center;
+				}
+			}
+			.nav-link {
+				color: rgba(0, 0, 0, 0.782);
+
+				&.active {
+					color: #000;
+					font-weight: bold;
+				}
+
+				&:hover {
+					color: #000;
+				}
+			}
+		}
+	}
+
+	.form-inline {
+		position: relative;
+
+		&::before {
+			position: absolute;
+			left: 1rem;
+			display: inline-block;
+			content: "";
+			background-image: url("../img/nav_search.svg");
+			background-repeat: no-repeat;
+			width: 1.1rem;
+			height: 1.1rem;
+		}
+		.form-control {
+			padding-left: 3rem;
+			width: 26.25rem;
+			height: 2.7rem;
+			border: none;
+			background-color: #ededed;
+		}
+	}
+}

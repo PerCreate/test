@@ -1,0 +1,36 @@
+* {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	background: transparent;
+	border: none;
+	outline: none;
+	text-decoration: none;
+	color: #000;
+}
+
+ul {
+	li {
+		list-style: none;
+	}
+}
+
+body {
+	background-color: #ffffff;
+
+	.container {
+		max-width: 1550px;
+		padding: 0;
+	}
+
+	main {
+		position: relative;
+		margin-top: 5.625rem;
+
+		&.container {
+			padding: 4.15rem 0;
+			height: 10000px;
+		}
+	}
+}
