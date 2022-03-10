@@ -11,8 +11,8 @@ const chaptersOptions = {
 	events: "Мероприятия",
 };
 
-const Sidebar = () => {
-
+const Sidebar = (props) => {
+	const { emitter, setIsShow } = props;
 
 	return <>
 		<div className="col-3">
@@ -30,7 +30,7 @@ const Sidebar = () => {
 			</ul>
 		</div>
 		<Routes>
-			<Route path="events" element={<BathEvents />} />
+			<Route path="events" element={<BathEvents setIsShow={() => setIsShow(prev => !prev)} emitter={emitter} />} />
 		</Routes>
 	</>;
 };

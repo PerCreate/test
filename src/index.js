@@ -6,12 +6,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Sidebar from './js/Sidebar/Sidebar';
 import Main from './js/Main';
 
+import './css/Main.scss';
 import './css/Modifiers.scss';
+import './css/Mixins.scss';
+import './css/Windows/BookEvent.scss';
+import BookEvent from './js/shared/Windows/BookEvent';
+import { Emitter } from './js/Listener';
+
+const emitter = new Emitter();
 
 ReactDOM.render(
 	<React.StrictMode>
 		<Router>
-			<Main />
+			<Main emitter={emitter} />
+			<BookEvent emitter={emitter} />
 		</Router>
 	</React.StrictMode>,
 	document.getElementById('root')

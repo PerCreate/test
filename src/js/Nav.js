@@ -3,10 +3,12 @@ import '../css/Nav.scss';
 import { useHttpClient } from './shared/hooks/httpHook';
 import { Link, NavLink } from 'react-router-dom';
 
-const Nav = () => {
-	const { isLoading, error, sendRequest, clearError } = useHttpClient();
+const Nav = (props) => {
+	const { sendRequest } = useHttpClient();
 	const [baths, setBaths] = useState([]);
 	const [favoriteCount, setFavoriteCount] = useState(0);
+	const { emitter } = props;
+
 
 	useEffect(() => {
 		async function loadBaths() {
@@ -15,6 +17,10 @@ const Nav = () => {
 		}
 		loadBaths();
 	}, [sendRequest]);
+	// working Добавить логику для удаления фаворитов
+	useEffect(() => {
+		emitter.listen('addFavorite', () => setFavoriteCount(prev => prev + 1));
+	}, [emitter]);
 
 	return <nav className="navbar navbar-expand-lg fixed-top navbar-light">
 		<div className="container">
