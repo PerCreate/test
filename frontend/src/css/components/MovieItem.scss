@@ -1,20 +1,22 @@
 .MovieItem {
 	width: 280px;
+	$padding: 16px;
 
 	.img-container {
+		padding: $padding;
 		position: relative;
+		margin-bottom: 16px;
 		width: 100%;
 		height: 370px;
 		color: #f2f2f2;
-		background-image: url("/assets/movieItems/batman.svg");
+		cursor: pointer;
 
 		&::before {
 			position: absolute;
-			top: 0;
 			display: block;
+			width: calc(100% - (2 * $padding));
 			content: attr(data-description);
-			width: 100%;
-			height: 100%;
+			line-height: 140%;
 			opacity: 0;
 		}
 
@@ -23,5 +25,10 @@
 				opacity: 1;
 			}
 		}
+	}
+
+	.title {
+		font-size: 20px;
+		line-height: 24px;
 	}
 }

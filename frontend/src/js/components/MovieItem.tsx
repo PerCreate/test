@@ -1,18 +1,18 @@
-const MovieItem = ({ url, title, description, alt = "movieCover" }) => {
+import { getPublicPath } from "js/utils/Utils";
+import { useLocation, useParams } from "react-router-dom";
+
+const MovieItem = ({ img, title, description, alt = "movieCover" }) => {
+	const path = "/assets/movieItems/";
+
 	return (
 		<div className="MovieItem">
 			<div
 				className="img-container"
 				data-description={description}
 				style={{
-					backgroundImage: `url("/assets/movieItems/batman.svg")`,
+					backgroundImage: `url("${path}/${img}")`,
 				}}
-			>
-				{/* <img
-					src={require("assets/movieItems/batman.svg").default}
-					alt={alt}
-				/> */}
-			</div>
+			></div>
 			<span className="title">{title}</span>
 		</div>
 	);
