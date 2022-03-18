@@ -4,9 +4,9 @@ const MovieItem = ({ url, title, description, alt = "movieCover" }) => {
 			<div
 				className="img-container"
 				data-description={description}
-				// style={{
-				// 	backgroundImage: `url("/assets/movieItems/batman.svg")`,
-				// }}
+				style={{
+					backgroundImage: `url("/assets/movieItems/batman.svg")`,
+				}}
 			>
 				{/* <img
 					src={require("assets/movieItems/batman.svg").default}
