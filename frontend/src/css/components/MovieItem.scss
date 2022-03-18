@@ -1,0 +1,24 @@
+.MovieItem {
+	width: 280px;
+
+	.img-container {
+		padding: 16px;
+		width: 100%;
+		height: 370px;
+		color: #f2f2f2;
+
+		img {
+			src: url('/img/header_logo.svg"');
+		}
+
+		&::after {
+			content: attr("data-description");
+		}
+
+		&:hover {
+			&::after {
+				display: none;
+			}
+		}
+	}
+}
