@@ -1,5 +1,9 @@
-interface rootReducerState {
+import { action } from "./actions";
+import { SEARCH_MOVIE } from "./types";
+
+export interface rootReducerState {
 	isAuth: boolean;
+	searchMovie?: string;
 }
 
 const getAuth = (): boolean => {
@@ -11,6 +15,14 @@ const initialState = {
 };
 
 
-export const rootReducer = (state: rootReducerState = initialState, action) => ({
-
-});
+export const rootReducer = (state: rootReducerState = initialState, action: action) => {
+	switch (action.type) {
+		case SEARCH_MOVIE:
+			return {
+				...state,
+				searchMovie: action.data.searchMovie
+			};
+		default:
+			return state;
+	}
+};

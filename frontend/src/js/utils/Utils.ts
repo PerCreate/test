@@ -25,10 +25,8 @@ export function debounce(fn: Function, delay: number = 1000) {
 	return function () {
 		const context = this;
 		const args = arguments;
-
 		clearTimeout(timer);
 		timer = window.setTimeout(() => {
-			timer = null;
 			fn.apply(context, args);
 		}, delay);
 	};

@@ -1,6 +1,6 @@
 import Header from "./shared/Header";
 import Main from "./page/Main";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
 
 const App = () => {
 	return (
@@ -9,6 +9,7 @@ const App = () => {
 				<Header />
 				<Routes>
 					<Route path="/main/*" element={<Main />} />
+					<Route path="/" element={<Navigate to="/main/movie" />} />
 				</Routes>
 			</div>
 		</Router>

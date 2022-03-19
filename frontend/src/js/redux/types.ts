@@ -1,1 +1,1 @@
-export const type = () => { };
+export const SEARCH_MOVIE = 'SEARCH_MOVIE'; 

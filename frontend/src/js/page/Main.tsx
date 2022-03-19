@@ -1,9 +1,11 @@
 import axios from "axios";
 import GenresItemsList from "js/components/GenreItemsList";
 import MovieItemsList from "js/components/MovieItemsList";
+import { rootReducerState } from "js/redux/rootReducer";
 import { getAPI } from "js/utils/Utils";
 import { useEffect, useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { connect } from "react-redux";
+import { NavLink, Route, Routes, Navigate } from "react-router-dom";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 export interface Movie {
@@ -82,9 +84,10 @@ const Main = ({ children = null }) => {
 						</>
 					}
 				/>
+				<Route path="/" element={<Navigate to="/main/movie" />} />
 			</Routes>
 		</div>
 	);
 };
 
-export default Main;
+export default connect()(Main);
