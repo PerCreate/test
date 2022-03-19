@@ -1,6 +1,16 @@
-import { combineReducers } from "redux";
-import { movieReducer } from "./movieReducer";
+interface rootReducerState {
+	isAuth: boolean;
+}
 
-export const rootReducer = combineReducers({
-	films: movieReducer
+const getAuth = (): boolean => {
+	return !!JSON.parse(localStorage.getItem('user_token'));
+};
+
+const initialState = {
+	isAuth: getAuth()
+};
+
+
+export const rootReducer = (state: rootReducerState = initialState, action) => ({
+
 });

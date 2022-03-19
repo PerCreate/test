@@ -1,8 +1,12 @@
-import { getPublicPath } from "js/utils/Utils";
-import { useLocation, useParams } from "react-router-dom";
+import { getPathToAssets } from "js/utils/Utils";
 
 const MovieItem = ({ img, title, description, alt = "movieCover" }) => {
-	const path = "/assets/movieItems/";
+	const path = getPathToAssets();
+
+	if (description.length > 300) {
+		description = description.slice(0, 300);
+		description += "...";
+	}
 
 	return (
 		<div className="MovieItem">
@@ -10,7 +14,7 @@ const MovieItem = ({ img, title, description, alt = "movieCover" }) => {
 				className="img-container"
 				data-description={description}
 				style={{
-					backgroundImage: `url("${path}/${img}")`,
+					background: `url("${img}") no-repeat center / cover`,
 				}}
 			></div>
 			<span className="title">{title}</span>

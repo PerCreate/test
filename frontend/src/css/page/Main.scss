@@ -1,0 +1,38 @@
+.Main {
+	margin-top: 48px;
+
+	&-tabs {
+		display: flex;
+		width: fit-content;
+		margin-left: auto;
+		margin-right: auto;
+
+		.tab {
+			padding-bottom: 9px;
+			margin-left: 24px;
+			font-weight: 500;
+			font-size: 28px;
+			line-height: 33px;
+			cursor: pointer;
+			color: #333333;
+			text-decoration: none;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&.active {
+				padding-bottom: 7px;
+				color: #e5261e;
+				border-bottom: 2px solid #e5261e;
+			}
+		}
+	}
+
+	&-list-title {
+		margin-top: 32px;
+		font-weight: 500;
+		font-size: 24px;
+		line-height: 28px;
+	}
+}

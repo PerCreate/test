@@ -1,0 +1,39 @@
+.GenresItem {
+	position: relative;
+	width: 280px;
+	height: 208px;
+	opacity: 0.8;
+	box-shadow: inset 0px 0px 16px rgba(0, 0, 0, 0.15);
+	border-radius: 6px;
+	cursor: pointer;
+
+	.img-container {
+		position: relative;
+		margin-bottom: 16px;
+		width: 100%;
+		height: 100%;
+		color: #f2f2f2;
+		cursor: pointer;
+	}
+
+	.title {
+		position: absolute;
+		bottom: 24px;
+		left: 0;
+		right: 0;
+		text-align: center;
+	}
+
+	&._comedy {
+		background: linear-gradient(127.83deg, #f2c94c 8.44%, #f29a4a 91.36%);
+	}
+	&._fantasy {
+		background: linear-gradient(127.83deg, #56ccf2 8.44%, #2f80ed 91.36%);
+	}
+	&._drams {
+		background: linear-gradient(127.83deg, #f2994a 8.44%, #eb5757 91.36%);
+	}
+	&._horror {
+		background: linear-gradient(127.83deg, #828282 8.44%, #333333 91.36%);
+	}
+}

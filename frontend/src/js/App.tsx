@@ -1,12 +1,17 @@
 import Header from "./shared/Header";
-import Main from "./shared/Main";
+import Main from "./page/Main";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 const App = () => {
 	return (
-		<div className="App container">
-			<Header />
-			<Main />
-		</div>
+		<Router>
+			<div className="App container">
+				<Header />
+				<Routes>
+					<Route path="/main/*" element={<Main />} />
+				</Routes>
+			</div>
+		</Router>
 	);
 };
 

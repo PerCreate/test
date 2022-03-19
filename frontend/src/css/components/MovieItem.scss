@@ -1,6 +1,8 @@
 .MovieItem {
-	width: 280px;
+	flex: 0 1 280px;
 	$padding: 16px;
+	margin: 22px 0;
+	height: 434px;
 
 	.img-container {
 		padding: $padding;
@@ -10,18 +12,24 @@
 		height: 370px;
 		color: #f2f2f2;
 		cursor: pointer;
+		border-radius: 8px;
 
 		&::before {
 			position: absolute;
-			display: block;
+			display: inline-block;
+			top: 30px;
 			width: calc(100% - (2 * $padding));
 			content: attr(data-description);
 			line-height: 140%;
 			opacity: 0;
+			transition: 0.3s ease-out;
 		}
 
 		&:hover {
+			opacity: 0.8;
+
 			&::before {
+				top: $padding;
 				opacity: 1;
 			}
 		}

@@ -2,6 +2,23 @@ export function getPublicPath(): string {
 	return process.env.PUBLIC_URL;
 }
 
+export function getPathToAssets(): string {
+	return getPublicPath() + '/assets';
+}
+
+export function getAPI(path: string, query: string): string {
+	return `https://api.themoviedb.org/3/
+	${path}?api_key=${getAPIKey()}${query}`;
+}
+
+export function getBaseURL(): string {
+	return `http://image.tmdb.org/t/p`;
+}
+
+export function getAPIKey(): string {
+	return '8716298d0f637e7824814450f22d60e7';
+}
+
 export function debounce(fn: Function, delay: number = 1000) {
 	var timer: number;
 
