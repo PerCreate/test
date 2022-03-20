@@ -21,7 +21,7 @@ const getName = (): string => {
 };
 
 const getComments = (): { [movieId: string | number]: comment[]; } => {
-	return JSON.parse(localStorage.getItem('comments')) || [];
+	return JSON.parse(localStorage.getItem('comments')) || {};
 };
 
 const initialState = {
@@ -60,16 +60,15 @@ export const rootReducer = (state: rootReducerState = initialState, action: acti
 				userName: action.data.userName
 			};
 		case SET_NEW_COMMENTS:
-			var newComm: comment[];
-			if (state.comments[action.data.movieId]) {
-				newComm = [...state.comments[action.data.movieId], ...action.data.newComments];
+			const movieId = action.data.movieId;
+			if (state.comments[movieId]) {
+				state.comments[movieId] = [...state.comments[movieId], ...action.data.newComments];
 			} else {
-				newComm = [...action.data.newComments];
+				state.comments[movieId] = [...action.data.newComments];
 			}
-			localStorage.setItem("comments", JSON.stringify(newComm));
+			localStorage.setItem("comments", JSON.stringify(state.comments));
 			return {
-				...state,
-				comments: newComm
+				...state
 			};
 		default:
 			return state;

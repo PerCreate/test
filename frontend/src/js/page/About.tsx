@@ -25,19 +25,11 @@ const About = ({
 }) => {
 	const [isLoading, setLoading] = useState(true);
 	const [newCommentValue, setNewCommentValue] = useState("");
-	const [comments, setComments] = useState<comment[]>([
-		{
-			id: 1,
-			userID: "956f5cfb7757eaad40f6deb14e0685aacc94f3bd",
-			userName: "Kostya",
-			text: "ewqeqweqwdasdwqrdgskgporvjrij erifjweorvwer",
-			movieId: 5,
-		},
-	]);
+	const [comments, setComments] = useState<comment[]>([]);
 	const [movie, setMovie] = useState<Movie>(null);
 
 	const params = useParams();
-	const movieId = params?.id || null;
+	const movieId = +params?.id || null;
 	const path = getBaseURL();
 
 	useEffect(() => {
@@ -53,9 +45,14 @@ const About = ({
 					overview,
 					release_date,
 				});
-				setComments(
-					stateComments.filter((comment: comment) => comment.movieId === +movieId)
-				);
+				if (stateComments[movieId]) {
+					setComments(
+						stateComments[movieId].filter(
+							(comment: comment) => comment.movieId === movieId
+						)
+					);
+				}
+
 				setLoading(false);
 			} catch (e) {
 				console.log(e);
