@@ -93,6 +93,7 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 					title={movie.title}
 					description={movie.overview}
 					key={movie.id}
+					to={`about/${movie.id}`}
 				/>
 			))}
 		</div>

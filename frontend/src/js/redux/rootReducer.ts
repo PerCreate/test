@@ -1,11 +1,15 @@
+import { comment } from './../page/About';
 import { action } from "./actions";
-import { LOG_OUT, SEARCH_MOVIE, SIGN_IN, USER_NAME_INPUT } from "./types";
+import { LOG_OUT, SEARCH_MOVIE, SET_NEW_COMMENTS, SIGN_IN, USER_NAME_INPUT } from "./types";
 
 export interface rootReducerState {
 	user_token: string;
 	userName?: string;
 	searchMovie?: string;
 	showWindow?: boolean;
+	comments?:
+	{ [movieId: string | number]: comment[]; }
+	;
 }
 
 const getAuth = (): string => {
@@ -16,10 +20,15 @@ const getName = (): string => {
 	return localStorage.getItem('userName') || '';
 };
 
+const getComments = (): { [movieId: string | number]: comment[]; } => {
+	return JSON.parse(localStorage.getItem('comments')) || [];
+};
+
 const initialState = {
 	user_token: getAuth(),
 	searchMovie: '',
-	userName: getName()
+	userName: getName(),
+	comments: getComments()
 };
 
 export const rootReducer = (state: rootReducerState = initialState, action: action) => {
@@ -49,6 +58,18 @@ export const rootReducer = (state: rootReducerState = initialState, action: acti
 			return {
 				...state,
 				userName: action.data.userName
+			};
+		case SET_NEW_COMMENTS:
+			var newComm: comment[];
+			if (state.comments[action.data.movieId]) {
+				newComm = [...state.comments[action.data.movieId], ...action.data.newComments];
+			} else {
+				newComm = [...action.data.newComments];
+			}
+			localStorage.setItem("comments", JSON.stringify(newComm));
+			return {
+				...state,
+				comments: newComm
 			};
 		default:
 			return state;

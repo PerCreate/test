@@ -1,5 +1,6 @@
 import axios from "axios";
 import GenresItemsList from "js/components/GenreItemsList";
+import MainTabs from "js/components/MainTabs";
 import MovieItemsList from "js/components/MovieItemsList";
 import { rootReducerState } from "js/redux/rootReducer";
 import { getAPI } from "js/utils/Utils";
@@ -7,6 +8,7 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { NavLink, Route, Routes, Navigate } from "react-router-dom";
 import { composeWithDevTools } from "redux-devtools-extension";
+import About from "./About";
 
 export interface Movie {
 	id: number;
@@ -14,6 +16,7 @@ export interface Movie {
 	backdrop_path: string;
 	overview: string;
 	release_date: string;
+	genres?: [{ id: number; name: string }];
 }
 
 const tabs = {
@@ -53,9 +56,13 @@ const Main = ({ children = null }) => {
 	//working loader
 	useEffect(() => {
 		const getData = async () => {
-			const dataMovie = await axios.get(getAPI("movie/popular", ""));
-			setMoviesList(dataMovie.data.results as Movie[]);
-			setLoading(false);
+			try {
+				const dataMovie = await axios.get(getAPI("movie/popular", ""));
+				setMoviesList(dataMovie.data.results as Movie[]);
+				setLoading(false);
+			} catch (e) {
+				console.log(e);
+			}
 		};
 		getData();
 	}, []);
@@ -66,27 +73,27 @@ const Main = ({ children = null }) => {
 
 	return (
 		<div className="Main">
-			<div className="Main-tabs">
-				{Object.keys(tabs).map((tab: string, index: number) => {
-					return (
-						<NavLink key={tab + index} className={`tab`} to={`${tab}`}>
-							{tabs[tab]}
-						</NavLink>
-					);
-				})}
-			</div>
 			<Routes>
 				<Route
-					path="/movie"
+					path="/"
 					element={
 						<>
-							<div className="Main-list-title">🔥 Новинки</div>
-							<MovieItemsList movies={moviesList} itemsPerPage={4} />
-							<GenresItemsList genres={genres} />
+							<MainTabs
+								tabs={tabs}
+								activeTab={activeTab}
+								setActiveTab={setActiveTab}
+							/>
+							{activeTab === tabs["movie"] && (
+								<>
+									<div className="Main-list-title">🔥 Новинки</div>
+									<MovieItemsList movies={moviesList} itemsPerPage={4} />
+									<GenresItemsList genres={genres} />
+								</>
+							)}
 						</>
 					}
 				/>
-				<Route path="/" element={<Navigate to="/main/movie" />} />
+				<Route path="about/:id" element={<About />} />
 			</Routes>
 		</div>
 	);

@@ -3,6 +3,8 @@ export interface data {
 	user_token?: string;
 	userName?: string;
 	rememberMe?: boolean;
+	movieId?: number;
+	newComments?: comment[];
 }
 
 export interface action {
@@ -10,7 +12,8 @@ export interface action {
 	data: data;
 }
 
-import { LOG_OUT, SEARCH_MOVIE, SIGN_IN, USER_NAME_INPUT } from "./types";
+import { comment } from "js/page/About";
+import { LOG_OUT, SEARCH_MOVIE, SET_NEW_COMMENTS, SIGN_IN, USER_NAME_INPUT } from "./types";
 
 export const onSearchAction = (data: data) => {
 	return {
@@ -36,6 +39,13 @@ export const onLogOut = (data: data) => {
 export const onUserNameInput = (data: data) => {
 	return {
 		type: USER_NAME_INPUT,
+		data: data
+	};
+};
+
+export const setNewComments = (data: data) => {
+	return {
+		type: SET_NEW_COMMENTS,
 		data: data
 	};
 };

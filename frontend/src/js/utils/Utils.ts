@@ -31,3 +31,13 @@ export function debounce(fn: Function, delay: number = 1000) {
 		}, delay);
 	};
 }
+
+export function getRandomId(): number {
+	const value = Math.random();
+
+	return value * (10 ** String(value).length);
+}
+
+export function deepCopy(obj: Object | Array<any>) {
+	return JSON.parse(JSON.stringify(obj));
+}
