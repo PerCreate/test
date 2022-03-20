@@ -6,4 +6,25 @@
 	font-size: 16px;
 	font-family: "Rubik", "sans-serif";
 	font-weight: 500;
+
+	&._small {
+		width: 232px;
+	}
+
+	&._name {
+		padding-right: 5px;
+		padding-left: 5px;
+		margin-right: 20px;
+		border-bottom: none;
+		max-width: 160px;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		text-align: right;
+		border-radius: 5px;
+
+		&:hover {
+			background-color: rgba($color: #c7c2c2, $alpha: 0.6);
+		}
+	}
 }

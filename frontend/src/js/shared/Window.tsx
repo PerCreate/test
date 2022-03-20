@@ -1,8 +1,48 @@
-const Window = ({ children }) => {
+import { rootReducerState } from "js/redux/rootReducer";
+import Button from "js/UI/Button";
+import { connect } from "react-redux";
+
+type WindowProps = {
+	children?: any;
+	title?: string;
+	centerTitle?: boolean;
+	isShowWindow: boolean;
+	controlSuccessName?: string;
+	onSuccess?: () => void;
+	onClose?: () => void;
+};
+
+const Window = ({
+	children = null,
+	title = "",
+	centerTitle = false,
+	isShowWindow = false,
+	onSuccess,
+	onClose,
+	controlSuccessName,
+}: WindowProps) => {
+	if (!isShowWindow) {
+		return null;
+	}
+
+	const onCloseWindow = () => {
+		onClose();
+	};
+
 	return (
-		<div className="Window">
-			<div className="Window-overlay"></div>
-			<div className="Window-content">{children}</div>
+		<div className="Window-overlay" onClick={onCloseWindow}>
+			<div className="Window-body _flAlignCol" onClick={(e) => e.stopPropagation()}>
+				<div className="Window-header">
+					<div className={`Window-title ${centerTitle ? "_center" : ""}`}>{title}</div>
+					{/* <div className="Window-close"></div> */}
+				</div>
+				<div className="Window-content _flAlignCol _alignStart">{children}</div>
+				{!!controlSuccessName && (
+					<div className="Window-controls">
+						<Button callback={onSuccess} name={controlSuccessName} />
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

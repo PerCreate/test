@@ -1,7 +1,7 @@
 const Input = ({ classes = null, onInput, placeholder, value }) => {
 	return (
 		<input
-			className="Input"
+			className={`Input ${classes}`}
 			type="text"
 			placeholder={placeholder}
 			onInput={onInput}

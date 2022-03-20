@@ -1,3 +1,32 @@
 ._ml15 {
 	margin-left: 15px;
 }
+
+._mt24 {
+	margin-top: 24px;
+}
+
+._d-fl {
+	display: flex;
+}
+
+._flAlignCol {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+._alignStart {
+	display: flex;
+	align-items: flex-start;
+}
+
+._justifyEnd {
+	display: flex;
+	justify-content: flex-end;
+}
+
+._w300 {
+	width: 300px;
+	max-width: 300px;
+}

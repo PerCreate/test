@@ -48,7 +48,9 @@ const Main = ({ children = null }) => {
 	const [activeTab, setActiveTab] = useState(tabs.movie);
 	const [isLoading, setLoading] = useState(true);
 	const [moviesList, setMoviesList] = useState<Movie[]>([]);
-
+	//working додлеть no items found
+	//working try catch
+	//working loader
 	useEffect(() => {
 		const getData = async () => {
 			const dataMovie = await axios.get(getAPI("movie/popular", ""));

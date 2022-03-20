@@ -1,19 +1,45 @@
 .Window {
-	position: absolute;
-	z-index: $windowZIndex;
-
 	&-overlay {
 		position: fixed;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 		top: 0;
 		left: 0;
 		width: 100vw;
 		height: 100vh;
 		background: #333333;
-		opacity: 0.6;
+		background: rgba($color: #333333, $alpha: 0.6);
+		z-index: $windowZIndex;
+	}
+
+	&-body {
+		padding: 36px;
+		border-radius: 8px;
+		background-color: #ffffff;
 	}
 
 	&-content {
-		padding: 36px;
-		border-radius: 8px;
+	}
+
+	&-header {
+		margin-bottom: 24px;
+	}
+
+	&-title {
+		width: 100%;
+		font-weight: 500;
+		font-size: 28px;
+		line-height: 33px;
+
+		&._center {
+			text-align: center;
+		}
+	}
+
+	&-controls {
+		display: flex;
+		justify-content: center;
+		margin-top: 111px;
 	}
 }

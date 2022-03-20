@@ -8,13 +8,28 @@ import axios from "axios";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { rootReducerState } from "js/redux/rootReducer";
-import { onSearchAction } from "js/redux/actions";
+import { action, data, onLogOut, onSearchAction, onUserNameInput } from "js/redux/actions";
+import Window from "./Window";
+import Checkbox from "js/UI/Checkbox";
+import SignInWindow from "js/components/SignInWindow";
 
-const Header = ({ onSearchAction = null }) => {
+type HeaderProps = {
+	dispatchNameInput: (data: data) => action;
+	dispatchSearch: (data: data) => action;
+	dispatchGotOut: (data: data) => action;
+	isAuth: boolean;
+	userNameStorage: string;
+};
+
+const Header = (props: HeaderProps) => {
 	const [searchValue, setSearchValue] = useState("");
+	const [userName, setUserName] = useState(props.userNameStorage);
+	const [isSignInWindowOpen, onOpenSignInWindow] = useState(false);
+	const { dispatchSearch, isAuth, dispatchNameInput, dispatchGotOut } = props;
+
 	//working не работает debounce
 	const onSearch = useCallback(
-		debounce(() => onSearchAction({ searchMovie: searchValue }), 500),
+		debounce(() => dispatchSearch({ searchMovie: searchValue }), 500),
 		[searchValue]
 	);
 
@@ -22,9 +37,19 @@ const Header = ({ onSearchAction = null }) => {
 		onSearch();
 	}, [searchValue]);
 
-	const onInput = (event) => {
-		const value = event.target.value;
-		setSearchValue(value);
+	const onUserName = (e) => {
+		const value = e.target.value;
+		setUserName(value);
+		dispatchNameInput({ userName: value });
+	};
+
+	const onCloseSignWindow = () => {
+		onOpenSignInWindow(false);
+	};
+
+	const onLogOut = () => {
+		setUserName("");
+		dispatchGotOut({});
 	};
 
 	return (
@@ -33,22 +58,46 @@ const Header = ({ onSearchAction = null }) => {
 				{}
 			</NavLink>
 			<div className="Header-search">
-				<Input onInput={onInput} placeholder="Поиск..." value={searchValue} />
-				<Button
-					classes="_flat _ml15"
-					callback={() => onSearchAction({ searchMovie: searchValue })}
-					name="Найти"
+				<Input
+					onInput={(e) => setSearchValue(e.target.value)}
+					placeholder="Поиск..."
+					value={searchValue}
 				/>
+				<Button classes="_flat _ml15" callback={onSearch} name="Найти" />
 			</div>
 			<div className="Header-controls">
-				<Button callback={onSearch} name="Войти" />
+				{isAuth ? (
+					<div className="_d-fl _w300">
+						<Input
+							classes={"_name"}
+							onInput={(e) => onUserName(e)}
+							placeholder="Введите имя..."
+							value={userName}
+						/>
+						<Button callback={onLogOut} name="Выйти" />
+					</div>
+				) : (
+					<div className="_w300 _justifyEnd">
+						<SignInWindow isOpen={isSignInWindowOpen} onClose={onCloseSignWindow} />
+						<Button callback={() => onOpenSignInWindow(true)} name="Войти" />
+					</div>
+				)}
 			</div>
 		</header>
 	);
 };
 
-const mapDispatch = {
-	onSearchAction,
+const mapState = (state: rootReducerState) => {
+	return {
+		isAuth: !!state.user_token,
+		userNameStorage: state.userName,
+	};
 };
 
-export default connect(null, { onSearchAction })(Header);
+const mapDispatch = {
+	dispatchSearch: onSearchAction,
+	dispatchNameInput: onUserNameInput,
+	dispatchGotOut: onLogOut,
+};
+
+export default connect(mapState, mapDispatch)(Header);

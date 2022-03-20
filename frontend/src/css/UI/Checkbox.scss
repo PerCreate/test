@@ -13,11 +13,15 @@
 	}
 
 	label {
+		position: relative;
+		padding-left: 24px;
 		display: inline-flex;
 		align-items: center;
 		user-select: none;
 
 		&::before {
+			position: absolute;
+			left: 0;
 			display: inline-block;
 			content: "";
 			width: 16px;
