@@ -1,5 +1,18 @@
 .About {
-	padding: 39px 0 72px;
+	position: relative;
+	$paddingLeft: 39px;
+	padding: $paddingLeft 0 72px;
+	min-height: 100vh;
+
+	.arrow-back {
+		position: absolute;
+		top: $paddingLeft;
+		left: 0;
+		width: 14px;
+		height: 24px;
+		background: url("/img/back_link-14x24.svg") no-repeat center / cover;
+		cursor: pointer;
+	}
 
 	&-info {
 		padding-left: 113px;

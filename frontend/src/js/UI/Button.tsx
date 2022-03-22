@@ -1,6 +1,15 @@
-const Button = ({ classes = null, callback, name }) => {
+const Button = ({ classes = null, callback, name, disabled = false }) => {
+	const onCb = (e) => {
+		if (!disabled) {
+			callback(e);
+		}
+	};
+
 	return (
-		<div className={`Button ` + classes} onClick={(e) => callback(e)}>
+		<div
+			className={`Button ${disabled ? "_disabled " : ""}` + classes}
+			onClick={(e) => onCb(e)}
+		>
 			{name}
 		</div>
 	);

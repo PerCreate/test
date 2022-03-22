@@ -1,11 +1,13 @@
 import axios from "axios";
+import Loader from "js/components/Loader";
+import SignInWindow from "js/components/SignInWindow";
 import { setNewComments } from "js/redux/actions";
 import { rootReducerState } from "js/redux/rootReducer";
 import Button from "js/UI/Button";
 import { deepCopy, getAPI, getBaseURL, getRandomId } from "js/utils/Utils";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Movie } from "./Main";
 
 export type comment = {
@@ -27,6 +29,8 @@ const About = ({
 	const [newCommentValue, setNewCommentValue] = useState("");
 	const [comments, setComments] = useState<comment[]>([]);
 	const [movie, setMovie] = useState<Movie>(null);
+	const [isSignInWindowOpen, onOpenSignInWindow] = useState(false);
+	const nav = useNavigate();
 
 	const params = useParams();
 	const movieId = +params?.id || null;
@@ -62,7 +66,11 @@ const About = ({
 	}, []);
 
 	if (isLoading) {
-		return <div className="Loader"></div>;
+		return (
+			<div className="About">
+				<Loader />
+			</div>
+		);
 	}
 
 	const updateComments = (comments: comment[]) => {
@@ -76,9 +84,6 @@ const About = ({
 	};
 
 	const onPublishComment = () => {
-		if (!userToken) {
-		}
-
 		if (!newCommentValue.length) {
 			return;
 		}
@@ -96,9 +101,14 @@ const About = ({
 		updateComments(newComments);
 	};
 
+	const onBackLink = () => {
+		nav("/main");
+	};
+
 	return (
 		<div className="About">
-			<div className="arrow-back"></div>
+			<SignInWindow isOpen={isSignInWindowOpen} onClose={onOpenSignInWindow} />
+			<div className="arrow-back" onClick={onBackLink}></div>
 			<div className="About-info">
 				<div
 					className="img-container"
@@ -152,7 +162,12 @@ const About = ({
 						})}
 					</div>
 					<div className="button-container">
-						<Button classes="_ml15" name="Опубликовать" callback={onPublishComment} />
+						<Button
+							classes="_ml15"
+							disabled={!userToken}
+							name="Опубликовать"
+							callback={onPublishComment}
+						/>
 					</div>
 				</div>
 			</div>

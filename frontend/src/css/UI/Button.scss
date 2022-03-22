@@ -20,6 +20,12 @@
 			background-color: #e5261e;
 		}
 	}
+
+	&._disabled {
+		background-color: rgb(186, 186, 186);
+		color: rgb(130, 126, 126);
+		cursor: inherit;
+	}
 }
 
 @keyframes onHover {

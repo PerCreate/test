@@ -1,5 +1,6 @@
 import axios from "axios";
 import GenresItemsList from "js/components/GenreItemsList";
+import Loader from "js/components/Loader";
 import MainTabs from "js/components/MainTabs";
 import MovieItemsList from "js/components/MovieItemsList";
 import { rootReducerState } from "js/redux/rootReducer";
@@ -52,7 +53,6 @@ const Main = ({ children = null }) => {
 	const [isLoading, setLoading] = useState(true);
 	const [moviesList, setMoviesList] = useState<Movie[]>([]);
 	//working додлеть no items found
-	//working try catch
 	//working loader
 	useEffect(() => {
 		const getData = async () => {
@@ -68,7 +68,11 @@ const Main = ({ children = null }) => {
 	}, []);
 
 	if (isLoading) {
-		return <div className="Loader"></div>;
+		return (
+			<div className="Main">
+				<Loader />
+			</div>
+		);
 	}
 
 	return (
