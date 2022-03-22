@@ -27,4 +27,20 @@
 			background-color: rgba($color: #c7c2c2, $alpha: 0.6);
 		}
 	}
+
+	&._wrong {
+		animation: failValidate 1s ease-in-out;
+	}
+}
+
+@keyframes failValidate {
+	0% {
+		background-color: red;
+	}
+	50% {
+		background-color: rgb(238, 96, 96);
+	}
+	100% {
+		background-color: none;
+	}
 }

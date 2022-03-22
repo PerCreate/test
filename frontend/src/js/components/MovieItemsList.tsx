@@ -9,6 +9,7 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 	const [isFirstItem, setIsFirstItem] = useState(true);
 	const [isLastItem, setIsLastItem] = useState(false);
 	const [isSmallList, setIsSmallList] = useState(false);
+	const [isFiltered, setIsFiltered] = useState(false);
 	const [indexFirstListItem, setIndexFirstListItem] = useState(0);
 	const [moviesShow, setMoviesShow] = useState([...movies]);
 	const path = getBaseURL();
@@ -28,6 +29,11 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 	}, [indexFirstListItem]);
 
 	useEffect(() => {
+		setIsFiltered(false);
+		setMovies();
+	}, [search]);
+
+	const setMovies = () => {
 		if (!!search) {
 			const filteredMovies: Movie[] = movies.filter((movie: Movie) =>
 				movie.title.match(search)
@@ -35,7 +41,9 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 			setMoviesShow(filteredMovies);
 			checkSizeList();
 		} else setDefault();
-	}, [search]);
+
+		setIsFiltered(true);
+	};
 
 	const setDefault = () => {
 		const newMovieList = movies.slice(0, itemsPerPage);
@@ -87,15 +95,21 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 					)}
 				</>
 			)}
-			{moviesShow.map((movie: Movie) => (
-				<MovieItem
-					img={path + "/w780" + movie.backdrop_path}
-					title={movie.title}
-					description={movie.overview}
-					key={movie.id}
-					to={`about/${movie.id}`}
-				/>
-			))}
+			{isFiltered &&
+				moviesShow.map((movie: Movie) => (
+					<MovieItem
+						img={path + "/w780" + movie.backdrop_path}
+						title={movie.title}
+						description={movie.overview}
+						key={movie.id}
+						to={`about/${movie.id}`}
+					/>
+				))}
+			{!moviesShow.length && (
+				<div className="empty-list">
+					Ничего не нашлось :( <br /> Попробуйте другой поиск
+				</div>
+			)}
 		</div>
 	);
 };

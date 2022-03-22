@@ -10,14 +10,20 @@ import { connect } from "react-redux";
 const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 	const [loginValue, setLoginValue] = useState("");
 	const [passwordValue, setPasswordValue] = useState("");
+	const [inputState, setInputState] = useState({
+		login: { validate: true },
+		password: { validate: true },
+	});
 	const [rememberMe, setRememberMe] = useState(false);
 	//working validate
 	const onSignIn = () => {
 		const getData = async () => {
 			try {
 				const data = await axios.get(getAPI("/authentication/token/new", ""));
-				dispatchSignIn({ user_token: data.data.request_token, rememberMe });
-				onCloseWindow();
+				if (validateData(loginValue, passwordValue)) {
+					dispatchSignIn({ user_token: data.data.request_token, rememberMe });
+					onCloseWindow();
+				}
 			} catch (e) {
 				console.log(e);
 			}
@@ -29,10 +35,42 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 		return null;
 	}
 
+	const validateData = (login: string, password: string) => {
+		if (login.length >= 6 && password.length >= 6) return true;
+
+		var newInputState;
+
+		if (login.length < 6) {
+			newInputState = { ...newInputState, login: { validate: false } };
+		}
+
+		if (password.length < 6) {
+			newInputState = { ...newInputState, password: { validate: false } };
+		}
+		setInputState(newInputState);
+		window.setTimeout(
+			() =>
+				setInputState({
+					login: { validate: true },
+					password: { validate: true },
+				}),
+			1500
+		);
+		return false;
+	};
+
 	const onCloseWindow = () => {
 		setLoginValue("");
 		setPasswordValue("");
 		onClose();
+	};
+
+	const onLoginInput = (e) => {
+		setLoginValue(e.target.value);
+	};
+
+	const onPasswordInput = (e) => {
+		setPasswordValue(e.target.value);
 	};
 
 	return (
@@ -47,14 +85,14 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 			{
 				<>
 					<Input
-						classes="_small"
-						onInput={(e) => setLoginValue(e.target.value)}
+						classes={`_small ${inputState.login.validate ? "" : "_wrong"}`}
+						onInput={(e) => onLoginInput(e)}
 						placeholder="Логин"
 						value={loginValue}
 					/>
 					<Input
-						classes="_mt24 _small"
-						onInput={(e) => setPasswordValue(e.target.value)}
+						classes={`_mt24 _small ${inputState.password.validate ? "" : "_wrong"}`}
+						onInput={(e) => onPasswordInput(e)}
 						placeholder="Пароль"
 						value={passwordValue}
 					/>

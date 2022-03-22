@@ -40,7 +40,6 @@ const Header = (props: HeaderProps) => {
 	const onUserName = (e) => {
 		const value = e.target.value;
 		setUserName(value);
-		dispatchNameInput({ userName: value });
 	};
 
 	const onCloseSignWindow = () => {
@@ -50,6 +49,10 @@ const Header = (props: HeaderProps) => {
 	const onLogOut = () => {
 		setUserName("");
 		dispatchGotOut({});
+	};
+
+	const saveName = (e) => {
+		dispatchNameInput({ userName: userName });
 	};
 
 	return (
@@ -73,6 +76,7 @@ const Header = (props: HeaderProps) => {
 							onInput={(e) => onUserName(e)}
 							placeholder="Введите имя..."
 							value={userName}
+							onBlur={saveName}
 						/>
 						<Button callback={onLogOut} name="Выйти" />
 					</div>
