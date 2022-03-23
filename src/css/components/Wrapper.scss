@@ -1,0 +1,28 @@
+.Wrapper {
+	position: fixed;
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+
+	&._moving {
+		user-select: none;
+	}
+
+	&-scrollbar {
+		position: fixed;
+		height: 100vh;
+		width: 40px;
+		background-color: red;
+		z-index: 500;
+
+		&-button {
+			position: absolute;
+			width: 40px;
+			background-color: green;
+		}
+	}
+
+	&-content {
+		position: relative;
+	}
+}

@@ -13,10 +13,10 @@ type WindowProps = {
 };
 
 const Window = ({
-	children = null,
-	title = "",
-	centerTitle = false,
-	isShowWindow = false,
+	children,
+	title,
+	centerTitle,
+	isShowWindow,
 	onSuccess,
 	onClose,
 	controlSuccessName,
