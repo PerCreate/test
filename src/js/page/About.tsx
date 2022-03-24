@@ -120,15 +120,19 @@ const About = ({
 				></div>
 				<div className="info-container">
 					<div className="charts">
-						<div className="chart title">Название:</div>
-						<div className="chart release">Дата выхода:</div>
-						<div className="chart genre">Жанры:</div>
-					</div>
-					<div className="charts-value">
-						<div className="chart title-value"> {movie.title}</div>
-						<div className="chart release-value">{movie.release_date}</div>
-						<div className="chart genre-value">
-							{movie.genres.map((genre) => genre.name).join(", ")}
+						<div className="chart">
+							<div className="title">Название:</div>
+							<div className="value"> {movie.title}</div>
+						</div>
+						<div className="chart release">
+							<div className="title">Дата выхода: </div>
+							<div className="value">{movie.release_date} </div>
+						</div>
+						<div className="chart genre">
+							<div className="title">Жанры: </div>
+							<div className="value">
+								{movie.genres.map((genre) => genre.name).join(", ")}{" "}
+							</div>
 						</div>
 					</div>
 

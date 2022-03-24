@@ -1,6 +1,6 @@
 import { Movie } from "js/page/Main";
 import { rootReducerState } from "js/redux/rootReducer";
-import { getBaseURL } from "js/utils/Utils";
+import { getBaseURL, isMobDevice780 } from "js/utils/Utils";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MovieItem from "./MovieItem";
@@ -9,7 +9,7 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 	const [isFirstItem, setIsFirstItem] = useState(true);
 	const [isLastItem, setIsLastItem] = useState(false);
 	const [isSmallList, setIsSmallList] = useState(false);
-	const [isFiltered, setIsFiltered] = useState(false);
+	const [isFiltered, setIsFiltered] = useState(true);
 	const [indexFirstListItem, setIndexFirstListItem] = useState(0);
 	const [moviesShow, setMoviesShow] = useState([...movies]);
 	const path = getBaseURL();
@@ -17,15 +17,23 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 	useEffect(() => {
 		if (itemsPerPage <= 4 && !search) {
 			setDefault();
-		} else setMoviesShow(movies);
+		} else {
+			setMoviesShow(movies);
+		}
 	}, []);
 
 	useEffect(() => {
-		if (indexFirstListItem === 0) setIsFirstItem(true);
-		else setIsFirstItem(false);
+		if (indexFirstListItem === 0) {
+			setIsFirstItem(true);
+		} else {
+			setIsFirstItem(false);
+		}
 
-		if (indexFirstListItem + itemsPerPage >= movies.length) setIsLastItem(true);
-		else setIsLastItem(false);
+		if (indexFirstListItem + itemsPerPage >= movies.length) {
+			setIsLastItem(true);
+		} else {
+			setIsLastItem(false);
+		}
 	}, [indexFirstListItem]);
 
 	useEffect(() => {
@@ -40,7 +48,9 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 			);
 			setMoviesShow(filteredMovies);
 			checkSizeList();
-		} else setDefault();
+		} else {
+			setDefault();
+		}
 
 		setIsFiltered(true);
 	};
@@ -59,6 +69,8 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 			setIsSmallList(true);
 		} else if (moviesShow.length <= itemsPerPage) {
 			setIsSmallList(true);
+		} else {
+			setIsSmallList(false);
 		}
 	};
 
@@ -85,7 +97,7 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 
 	return (
 		<div className={`MovieItemsList ${isSmallList ? "_small" : ""}`}>
-			{itemsPerPage <= 4 && (
+			{itemsPerPage <= moviesShow?.length && (
 				<>
 					{!isFirstItem && !search && (
 						<div className="arrow-left" onClick={() => onArrowLeft()}></div>

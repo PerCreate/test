@@ -2,7 +2,13 @@ import GenresItem from "js/components/GenresItem";
 import MovieItem from "js/components/MovieItem";
 import Button from "js/UI/Button";
 import Input from "js/UI/Input";
-import { debounce, getAPI, getBaseURL } from "js/utils/Utils";
+import {
+	debounce,
+	getAPI,
+	getBaseURL,
+	isMobDevice780,
+	isViewportSmallerSize,
+} from "js/utils/Utils";
 import { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
@@ -25,6 +31,8 @@ const Header = (props: HeaderProps) => {
 	const [searchValue, setSearchValue] = useState("");
 	const [userName, setUserName] = useState(props.userNameStorage);
 	const [isSignInWindowOpen, onOpenSignInWindow] = useState(false);
+	const [isSmallerViewportSize, setIsSmallerViewportSize] = useState(false);
+	const [isDevice780, setIsDevice780] = useState(false);
 	const { dispatchSearch, isAuth, dispatchNameInput, dispatchGotOut } = props;
 
 	//working не работает debounce
@@ -32,6 +40,15 @@ const Header = (props: HeaderProps) => {
 		debounce(() => dispatchSearch({ searchMovie: searchValue }), 500),
 		[searchValue]
 	);
+
+	useEffect(() => {
+		if (isMobDevice780()) {
+			setIsDevice780(true);
+		}
+		if (isViewportSmallerSize()) {
+			setIsSmallerViewportSize(true);
+		}
+	}, []);
 
 	useEffect(() => {
 		onSearch();
@@ -58,7 +75,7 @@ const Header = (props: HeaderProps) => {
 	return (
 		<header className="Header">
 			<NavLink className="Header-logo" to="/main">
-				{}
+				{!isSmallerViewportSize && "Видеосервис"}
 			</NavLink>
 			<div className="Header-search">
 				<Input
@@ -66,11 +83,11 @@ const Header = (props: HeaderProps) => {
 					placeholder="Поиск..."
 					value={searchValue}
 				/>
-				<Button classes="_flat _ml15" callback={onSearch} name="Найти" />
+				{!isDevice780 && <Button classes="_flat _ml15" callback={onSearch} name="Найти" />}
 			</div>
 			<div className="Header-controls">
 				{isAuth ? (
-					<div className="_d-fl _w300">
+					<div className="_d-fl">
 						<Input
 							classes={"_name"}
 							onInput={(e) => onUserName(e)}
@@ -81,7 +98,7 @@ const Header = (props: HeaderProps) => {
 						<Button callback={onLogOut} name="Выйти" />
 					</div>
 				) : (
-					<div className="_w300 _justifyEnd">
+					<div className="_justifyEnd">
 						<SignInWindow isOpen={isSignInWindowOpen} onClose={onCloseSignWindow} />
 						<Button callback={() => onOpenSignInWindow(true)} name="Войти" />
 					</div>

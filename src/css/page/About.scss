@@ -37,7 +37,7 @@
 				&-value {
 					flex-grow: 1;
 					font-weight: 500;
-					font-size: 20px;
+					font-size: 1.25em;
 					line-height: 24px;
 				}
 			}
@@ -46,6 +46,15 @@
 				display: flex;
 				align-items: flex-end;
 				height: 24px;
+
+				.title {
+					width: 120px;
+				}
+
+				.value {
+					font-size: 1.25em;
+					font-weight: 500;
+				}
 
 				& ~ .chart {
 					margin-top: 16px;
@@ -60,7 +69,7 @@
 		.headline {
 			width: 100%;
 			font-weight: 600;
-			font-size: 20px;
+			font-size: 1.25em;
 			line-height: 24px;
 			text-align: center;
 		}

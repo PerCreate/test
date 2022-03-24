@@ -7,10 +7,15 @@ import { getAPI } from "js/utils/Utils";
 import { useState } from "react";
 import { connect } from "react-redux";
 
+interface inputState {
+	login: { validate: boolean };
+	password: { validate: boolean };
+}
+
 const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 	const [loginValue, setLoginValue] = useState("");
 	const [passwordValue, setPasswordValue] = useState("");
-	const [inputState, setInputState] = useState({
+	const [inputState, setInputState] = useState<inputState>({
 		login: { validate: true },
 		password: { validate: true },
 	});
@@ -38,7 +43,10 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 	const validateData = (login: string, password: string) => {
 		if (login.length >= 6 && password.length >= 6) return true;
 
-		var newInputState;
+		var newInputState: inputState = {
+			login: { validate: false },
+			password: { validate: false },
+		};
 
 		if (login.length < 6) {
 			newInputState = { ...newInputState, login: { validate: false } };

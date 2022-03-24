@@ -41,3 +41,27 @@ export function getRandomId(): number {
 export function deepCopy(obj: Object | Array<any>) {
 	return JSON.parse(JSON.stringify(obj));
 }
+
+export function isMobDevice970(): boolean {
+	const isMobile = window.matchMedia("only screen and (max-width: 970px)").matches;
+
+	return isMobile;
+}
+
+export function isMobDevice780(): boolean {
+	const isMobile = window.matchMedia("only screen and (max-width: 780px)").matches;
+
+	return isMobile;
+}
+
+export function isViewportMiddleSize(): boolean {
+	const isViewportMiddleSize = window.matchMedia("(max-width: 1320px)").matches;
+
+	return isViewportMiddleSize;
+}
+
+export function isViewportSmallerSize(): boolean {
+	const isViewportMiddleSize = window.matchMedia("(max-width: 1035px)").matches;
+
+	return isViewportMiddleSize;
+}
