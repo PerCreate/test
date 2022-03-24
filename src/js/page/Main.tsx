@@ -53,8 +53,6 @@ const Main = ({ children = null }) => {
 	const [isLoading, setLoading] = useState(true);
 	const [moviesList, setMoviesList] = useState<Movie[]>([]);
 	const [itemsPerPage, setItemsPerPage] = useState(4);
-	//working додлеть no items found
-	//working loader
 
 	const checkViewportSize = () => {
 		if (isViewportMiddleSize()) {

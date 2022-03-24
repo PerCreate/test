@@ -16,7 +16,7 @@ const Scrollbar = ({ children }) => {
 	const [btnScrollbarHeight, setBtnScrollbarHeight] = useState(0);
 	const [isBtnDown, setIsBtnDown] = useState(false);
 	const [isWheelEvent, setIsWheelEvent] = useState(true);
-
+	//working блочить кастомный скролл при touchmove внутри content
 	useEffect(() => {
 		const obs = new MutationObserver(debounce(setInitial, 80));
 		obs.observe(wrapper.current, { childList: true, subtree: true });
@@ -89,14 +89,22 @@ const Scrollbar = ({ children }) => {
 	};
 
 	const btnScrollbarDown = (e) => {
-		if (e.target.id === "wrapper-scrollbar-button") {
-			const currentPosition = e.clientY;
+		if (e.target.id === "wrapper-scrollbar-button" || e.type === "touchstart") {
+			var currentPosition = e.clientY;
+			if (e.type === "touchstart") {
+				currentPosition = -e.changedTouches[0].clientY;
+			}
+
 			setStartPosBtnY(currentPosition);
 			setCurrentPosBtnY(currentPosition);
 			setIsBtnDown(true);
 		}
 	};
 	const btnScrollbarMove = (e) => {
+		if (e.type === "touchmove") {
+			setCurrentPosBtnY(-e.changedTouches[0].clientY);
+			return;
+		}
 		isBtnDown && setCurrentPosBtnY(e.clientY);
 	};
 	const btnScrollbarUp = (e) => {
@@ -121,6 +129,9 @@ const Scrollbar = ({ children }) => {
 				onMouseDown={(e) => btnScrollbarDown(e)}
 				onMouseMove={(e) => btnScrollbarMove(e)}
 				onMouseUp={(e) => btnScrollbarUp(e)}
+				onTouchStart={(e) => btnScrollbarDown(e)}
+				onTouchMove={(e) => btnScrollbarMove(e)}
+				onTouchEnd={(e) => btnScrollbarUp(e)}
 				onWheel={(e) => wheelEvent(e)}
 			>
 				<div className="Wrapper-scrollbar" id="wrapper-scrollbar">
