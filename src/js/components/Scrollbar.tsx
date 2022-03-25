@@ -97,8 +97,7 @@ const Scrollbar = ({ children }: { children: any }) => {
 	const btnScrollbarDown = (e: React.MouseEvent | React.TouchEvent) => {
 		var currentPosition: number;
 		const target = e.target as HTMLDivElement;
-
-		if (target.id !== "wrapper-scrollbar-button" || e.type !== "touchstart") {
+		if (target.id !== "wrapper-scrollbar-button" && e.type !== "touchstart") {
 			return;
 		} else {
 			if (e.type === "touchstart") {
