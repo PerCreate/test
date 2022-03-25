@@ -1,6 +1,7 @@
+import { Genre } from "js/page/Main";
 import { getPathToAssets } from "js/utils/Utils";
 
-const GenresItem = ({ img, title, type = "", alt = "movieCover" }) => {
+const GenresItem = ({ img, title, type = "", alt = "movieCover" }: Genre) => {
 	const path = getPathToAssets();
 
 	return (

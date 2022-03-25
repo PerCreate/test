@@ -1,6 +1,4 @@
-import { rootReducerState } from "js/redux/rootReducer";
 import Button from "js/UI/Button";
-import { connect } from "react-redux";
 
 type WindowProps = {
 	children?: any;
@@ -17,7 +15,7 @@ const Window = ({
 	title,
 	centerTitle,
 	isShowWindow,
-	onSuccess,
+	onSuccess = () => {},
 	onClose,
 	controlSuccessName,
 }: WindowProps) => {
@@ -26,7 +24,7 @@ const Window = ({
 	}
 
 	const onCloseWindow = () => {
-		onClose();
+		onClose && onClose();
 	};
 
 	return (

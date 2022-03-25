@@ -1,8 +1,7 @@
 import { debounce } from "js/utils/Utils";
-import { useEffect, useRef, useState } from "react";
-import Loader from "./Loader";
+import { RefObject, useEffect, useRef, useState } from "react";
 
-const Scrollbar = ({ children }) => {
+const Scrollbar = ({ children }: { children: any }) => {
 	const [startPosBtnY, setStartPosBtnY] = useState(0);
 	const [startMovingPosBtnY, setStartMovingPosBtnY] = useState(0);
 	const [currentPosBtnY, setCurrentPosBtnY] = useState(0);
@@ -19,7 +18,7 @@ const Scrollbar = ({ children }) => {
 	//working блочить кастомный скролл при touchmove внутри content
 	useEffect(() => {
 		const obs = new MutationObserver(debounce(setInitial, 80));
-		obs.observe(wrapper.current, { childList: true, subtree: true });
+		obs.observe(wrapper.current as HTMLDivElement, { childList: true, subtree: true });
 		window.onresize = () => {
 			setInitial();
 		};
@@ -34,65 +33,80 @@ const Scrollbar = ({ children }) => {
 	}, [startPosBtnY]);
 
 	const setInitial = () => {
-		const visibleContentHeight: number = wrapper.current.offsetHeight;
-		const contentHeight: number = wrapperContent.current.offsetHeight;
+		const currentWrapper = wrapper.current as HTMLDivElement;
+		const currentWrapperContent = wrapperContent.current as HTMLDivElement;
+		const currentBtnScrollbar = btnScrollbar.current as HTMLDivElement;
+
+		const visibleContentHeight: number = currentWrapper.offsetHeight;
+		const contentHeight: number = currentWrapperContent.offsetHeight;
 
 		setScrollbarHeight(visibleContentHeight);
 		setP(visibleContentHeight / contentHeight);
 		setBtnScrollbarHeight((visibleContentHeight / contentHeight) * visibleContentHeight);
-		btnScrollbar.current.style.height =
+		currentBtnScrollbar.style.height =
 			(visibleContentHeight / contentHeight) * visibleContentHeight + "px";
 	};
 
 	const setCurrentPosition = () => {
+		const currentWrapperContent = wrapperContent.current as HTMLDivElement;
+		const currentBtnScrollbar = btnScrollbar.current as HTMLDivElement;
+
 		const currentDeltaY = startMovingPosBtnY + (currentPosBtnY - startPosBtnY);
 		const enableSpaceDown = scrollbarHeight - btnScrollbarHeight;
 
 		if (isBtnDown) {
 			if (currentDeltaY < 0) {
-				btnScrollbar.current.style.top = 0 + "px";
-				wrapperContent.current.style.top = 0 + "px";
+				currentBtnScrollbar.style.top = 0 + "px";
+				currentWrapperContent.style.top = 0 + "px";
 				return;
 			}
 
 			if (enableSpaceDown - currentDeltaY < 0) {
-				btnScrollbar.current.style.top = enableSpaceDown + "px";
-				wrapperContent.current.style.top = -enableSpaceDown / P + "px";
+				currentBtnScrollbar.style.top = enableSpaceDown + "px";
+				currentWrapperContent.style.top = -enableSpaceDown / P + "px";
 				return;
 			}
-			btnScrollbar.current.style.top = currentDeltaY + "px";
-			wrapperContent.current.style.top = -currentDeltaY / P + "px";
+			currentBtnScrollbar.style.top = currentDeltaY + "px";
+			currentWrapperContent.style.top = -currentDeltaY / P + "px";
 			return;
 		}
 
 		if (isWheelEvent) {
 			setIsWheelEvent(false);
 			if (startPosBtnY < 0) {
-				btnScrollbar.current.style.top = 0 + "px";
-				wrapperContent.current.style.top = 0 + "px";
+				currentBtnScrollbar.style.top = 0 + "px";
+				currentWrapperContent.style.top = 0 + "px";
 				setStartPosBtnY(0);
 				setStartMovingPosBtnY(0);
 				return;
 			}
 			if (enableSpaceDown - startPosBtnY < 0) {
-				btnScrollbar.current.style.top = enableSpaceDown + "px";
-				wrapperContent.current.style.top = -enableSpaceDown / P + "px";
+				currentBtnScrollbar.style.top = enableSpaceDown + "px";
+				currentWrapperContent.style.top = -enableSpaceDown / P + "px";
 				setStartPosBtnY(enableSpaceDown);
 				setStartMovingPosBtnY(enableSpaceDown);
 				return;
 			}
-			btnScrollbar.current.style.top = startPosBtnY + "px";
-			wrapperContent.current.style.top = -startPosBtnY / P + "px";
+			currentBtnScrollbar.style.top = startPosBtnY + "px";
+			currentWrapperContent.style.top = -startPosBtnY / P + "px";
 			setStartMovingPosBtnY(startPosBtnY);
 			return;
 		}
 	};
 
-	const btnScrollbarDown = (e) => {
-		if (e.target.id === "wrapper-scrollbar-button" || e.type === "touchstart") {
-			var currentPosition = e.clientY;
+	const btnScrollbarDown = (e: React.MouseEvent | React.TouchEvent) => {
+		var currentPosition: number;
+		const target = e.target as HTMLDivElement;
+
+		if (target.id !== "wrapper-scrollbar-button" || e.type !== "touchstart") {
+			return;
+		} else {
 			if (e.type === "touchstart") {
+				e = e as React.TouchEvent;
 				currentPosition = -e.changedTouches[0].clientY;
+			} else {
+				e = e as React.MouseEvent;
+				currentPosition = e.clientY;
 			}
 
 			setStartPosBtnY(currentPosition);
@@ -100,20 +114,26 @@ const Scrollbar = ({ children }) => {
 			setIsBtnDown(true);
 		}
 	};
-	const btnScrollbarMove = (e) => {
+
+	const btnScrollbarMove = (e: React.MouseEvent | React.TouchEvent) => {
 		if (e.type === "touchmove") {
+			e = e as React.TouchEvent;
 			setCurrentPosBtnY(-e.changedTouches[0].clientY);
 			return;
 		}
+		e = e as React.MouseEvent;
 		isBtnDown && setCurrentPosBtnY(e.clientY);
 	};
-	const btnScrollbarUp = (e) => {
-		setStartMovingPosBtnY(btnScrollbar.current.offsetTop);
-		setStartPosBtnY(btnScrollbar.current.offsetTop);
+
+	const btnScrollbarUp = (e: React.MouseEvent | React.TouchEvent) => {
+		const currentBtnScrollbar = btnScrollbar.current as HTMLDivElement;
+
+		setStartMovingPosBtnY(currentBtnScrollbar.offsetTop);
+		setStartPosBtnY(currentBtnScrollbar.offsetTop);
 		setIsBtnDown(false);
 	};
 
-	const wheelEvent = (e) => {
+	const wheelEvent = (e: React.WheelEvent) => {
 		const { deltaY } = e;
 		setIsWheelEvent(true);
 		setStartPosBtnY(startPosBtnY + deltaY);
@@ -125,7 +145,7 @@ const Scrollbar = ({ children }) => {
 			<div
 				className={`Wrapper ${isBtnDown ? "_moving" : ""}`}
 				id="wrapper"
-				ref={wrapper}
+				ref={wrapper as RefObject<HTMLDivElement>}
 				onMouseDown={(e) => btnScrollbarDown(e)}
 				onMouseMove={(e) => btnScrollbarMove(e)}
 				onMouseUp={(e) => btnScrollbarUp(e)}
@@ -137,11 +157,15 @@ const Scrollbar = ({ children }) => {
 				<div className="Wrapper-scrollbar" id="wrapper-scrollbar">
 					<div
 						className="Wrapper-scrollbar-button"
-						ref={btnScrollbar}
+						ref={btnScrollbar as RefObject<HTMLDivElement>}
 						id="wrapper-scrollbar-button"
 					></div>
 				</div>
-				<div className="Wrapper-content" id="wrapper-content" ref={wrapperContent}>
+				<div
+					className="Wrapper-content"
+					id="wrapper-content"
+					ref={wrapperContent as RefObject<HTMLDivElement>}
+				>
 					{children}
 				</div>
 			</div>

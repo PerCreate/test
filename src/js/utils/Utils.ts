@@ -1,5 +1,5 @@
 export function getPublicPath(): string {
-	return process.env.PUBLIC_URL;
+	return process.env.PUBLIC_URL || '';
 }
 
 export function getPathToAssets(): string {
@@ -22,7 +22,7 @@ export function getAPIKey(): string {
 export function debounce(fn: Function, delay: number = 1000) {
 	var timer: number;
 
-	return function () {
+	return function cb() {
 		const context = this;
 		const args = arguments;
 		clearTimeout(timer);

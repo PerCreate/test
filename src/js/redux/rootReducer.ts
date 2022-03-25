@@ -4,24 +4,25 @@ import { LOG_OUT, SEARCH_MOVIE, SET_NEW_COMMENTS, SIGN_IN, USER_NAME_INPUT } fro
 
 export interface rootReducerState {
 	user_token: string;
-	userName?: string;
+	userName: string;
 	searchMovie?: string;
 	showWindow?: boolean;
-	comments?:
-	{ [movieId: string | number]: comment[]; }
+	comments:
+	{ [movieId: number]: comment[]; }
 	;
 }
 
 const getAuth = (): string => {
-	return localStorage.getItem('user_token') || null;
+	return localStorage.getItem('user_token') || '';
 };
 
 const getName = (): string => {
 	return localStorage.getItem('userName') || '';
 };
 
-const getComments = (): { [movieId: string | number]: comment[]; } => {
-	return JSON.parse(localStorage.getItem('comments')) || {};
+const getComments = (): { [movieId: number]: comment[]; } | {} => {
+	const comments = localStorage.getItem('comments');
+	return comments ? JSON.parse(comments) : {};
 };
 
 const initialState = {
@@ -31,7 +32,11 @@ const initialState = {
 	comments: getComments()
 };
 
-export const rootReducer = (state: rootReducerState = initialState, action: action) => {
+export const rootReducer = (state: rootReducerState = initialState, action: action): rootReducerState => {
+	if (state === undefined) {
+		return initialState;
+	}
+
 	switch (action.type) {
 		case SEARCH_MOVIE:
 			return {
@@ -40,31 +45,34 @@ export const rootReducer = (state: rootReducerState = initialState, action: acti
 			};
 		case SIGN_IN:
 			if (action.data.rememberMe) {
-				localStorage.setItem("user_token", action.data.user_token);
+				localStorage.setItem("user_token", action.data.user_token || '');
 			}
 			return {
 				...state,
-				user_token: action.data.user_token
+				user_token: action.data.user_token || ''
 			};
 		case LOG_OUT:
 			localStorage.removeItem("user_token");
 			localStorage.removeItem("userName");
 			return {
 				...state,
-				user_token: null
+				user_token: ''
 			};
 		case USER_NAME_INPUT:
-			localStorage.setItem("userName", action.data.userName);
+			localStorage.setItem("userName", action.data.userName || '');
 			return {
 				...state,
-				userName: action.data.userName
+				userName: action.data.userName || ''
 			};
 		case SET_NEW_COMMENTS:
-			const movieId = action.data.movieId;
+			const movieId = action.data.movieId as number;
+			if (!state.comments) {
+				state.comments = {};
+			}
 			if (state.comments[movieId]) {
-				state.comments[movieId] = [...state.comments[movieId], ...action.data.newComments];
+				state.comments[movieId] = [...state.comments[movieId], ...action.data.newComments || []];
 			} else {
-				state.comments[movieId] = [...action.data.newComments];
+				state.comments[movieId] = [...action.data.newComments || []];
 			}
 			localStorage.setItem("comments", JSON.stringify(state.comments));
 			return {

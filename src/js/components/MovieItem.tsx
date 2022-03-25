@@ -1,7 +1,15 @@
 import { getPathToAssets } from "js/utils/Utils";
 import { useNavigate } from "react-router-dom";
 
-const MovieItem = ({ img, title, description, alt = "movieCover", to }) => {
+interface MovieItemProps {
+	img: string;
+	title: string;
+	description: string;
+	alt?: string;
+	to: string;
+}
+
+const MovieItem = ({ img, title, description, alt = "movieCover", to }: MovieItemProps) => {
 	const path = getPathToAssets();
 
 	if (description.length > 300) {

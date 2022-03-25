@@ -18,29 +18,52 @@ export type comment = {
 	text: string;
 };
 
+interface AboutProps {
+	children?: any;
+	userToken: string;
+	userName: string;
+	stateComments: rootReducerState["comments"];
+	dispatchNewComments: typeof setNewComments;
+}
+
+const mapState = (state: rootReducerState) => {
+	return {
+		userToken: state.user_token,
+		userName: state.userName || "",
+		stateComments: state.comments,
+	};
+};
+
+const mapDispatch = {
+	dispatchNewComments: setNewComments,
+};
+
 const About = ({
-	children = null,
-	userToken = null,
-	userName = "",
+	children,
+	userToken,
+	userName,
 	dispatchNewComments,
 	stateComments,
-}) => {
+}: AboutProps) => {
 	const [isLoading, setLoading] = useState(true);
 	const [newCommentValue, setNewCommentValue] = useState("");
 	const [comments, setComments] = useState<comment[]>([]);
-	const [movie, setMovie] = useState<Movie>(null);
+	const [movie, setMovie] = useState<Movie>();
+	const [movieId, setMovieId] = useState<number>(0);
 	const [isSignInWindowOpen, onOpenSignInWindow] = useState(false);
 	const nav = useNavigate();
 
 	const params = useParams();
-	const movieId = +params?.id || null;
 	const path = getBaseURL();
 
 	useEffect(() => {
 		const getData = async () => {
 			try {
-				const dataMovie = await axios.get(getAPI(`movie/${movieId}`, ""));
-				const { backdrop_path, genres, id, title, overview, release_date } = dataMovie.data;
+				if (params?.id) {
+					var dataMovie = await axios.get(getAPI(`movie/${+params.id}`, ""));
+					var { backdrop_path, genres, id, title, overview, release_date } =
+						dataMovie.data;
+				}
 				setMovie({
 					backdrop_path,
 					genres,
@@ -49,7 +72,7 @@ const About = ({
 					overview,
 					release_date,
 				});
-				if (stateComments[movieId]) {
+				if (stateComments && stateComments[movieId]) {
 					setComments(
 						stateComments[movieId].filter(
 							(comment: comment) => comment.movieId === movieId
@@ -62,7 +85,12 @@ const About = ({
 				console.log(e);
 			}
 		};
-		getData();
+		if (params?.id) {
+			setMovieId(+params.id);
+			getData();
+		} else {
+			throw new Error(`params is missing id parameter`);
+		}
 	}, []);
 
 	if (isLoading) {
@@ -72,9 +100,17 @@ const About = ({
 			</div>
 		);
 	}
+	//working Возвращать Error компоненту
+	if (!movie) {
+		return (
+			<div className="About">
+				<Loader />
+			</div>
+		);
+	}
 
 	const updateComments = (comments: comment[]) => {
-		dispatchNewComments({ newComments: comments, movieId: +movieId });
+		dispatchNewComments({ newComments: comments, movieId: movieId });
 	};
 
 	const onDeleteComment = (id: number) => {
@@ -93,7 +129,7 @@ const About = ({
 			userID: userToken,
 			userName: userName || "Аноним",
 			text: newCommentValue,
-			movieId: +movieId,
+			movieId: movieId,
 		};
 		newComments.unshift(newComment);
 		setNewCommentValue("");
@@ -131,7 +167,8 @@ const About = ({
 						<div className="chart genre">
 							<div className="title">Жанры: </div>
 							<div className="value">
-								{movie.genres.map((genre) => genre.name).join(", ")}{" "}
+								{movie.genres?.map((genre) => genre.name).join(", ") ||
+									"Нет информации"}
 							</div>
 						</div>
 					</div>
@@ -177,18 +214,6 @@ const About = ({
 			</div>
 		</div>
 	);
-};
-
-const mapState = (state: rootReducerState) => {
-	return {
-		userToken: state.user_token,
-		userName: state.userName,
-		stateComments: state.comments,
-	};
-};
-
-const mapDispatch = {
-	dispatchNewComments: setNewComments,
 };
 
 export default connect(mapState, mapDispatch)(About);

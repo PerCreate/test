@@ -1,6 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { tabsType } from "js/page/Main";
+interface MainTabsProps {
+	tabs: tabsType;
+	activeTab: string;
+	setActiveTab: (arg0: string) => void;
+}
 
-const MainTabs = ({ tabs, activeTab, setActiveTab }) => {
+const MainTabs = ({ tabs, activeTab, setActiveTab }: MainTabsProps) => {
 	return (
 		<div className="Main-tabs">
 			{Object.keys(tabs).map((tab: string, index: number) => {

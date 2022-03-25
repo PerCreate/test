@@ -1,6 +1,11 @@
+import { Genre } from "js/page/Main";
 import GenresItem from "./GenresItem";
 
-const GenreItemsList = ({ genres }) => {
+interface GenreItemsListProps {
+	genres: Genre[];
+}
+
+const GenreItemsList = ({ genres }: GenreItemsListProps) => {
 	return (
 		<div className="GenreItemsList">
 			{genres.map((genre: any, index: number) => (

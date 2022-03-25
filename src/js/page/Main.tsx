@@ -3,12 +3,10 @@ import GenresItemsList from "js/components/GenreItemsList";
 import Loader from "js/components/Loader";
 import MainTabs from "js/components/MainTabs";
 import MovieItemsList from "js/components/MovieItemsList";
-import { rootReducerState } from "js/redux/rootReducer";
 import { getAPI, isMobDevice780, isMobDevice970, isViewportMiddleSize } from "js/utils/Utils";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { NavLink, Route, Routes, Navigate } from "react-router-dom";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { Route, Routes } from "react-router-dom";
 import About from "./About";
 
 export interface Movie {
@@ -20,12 +18,23 @@ export interface Movie {
 	genres?: [{ id: number; name: string }];
 }
 
-const tabs = {
+export type tabsType = {
+	[tabName: string]: string;
+};
+
+const tabs: tabsType = {
 	movie: "Фильмы",
 	channels: "Телеканалы",
 };
 
-const genres = [
+export interface Genre {
+	img: string;
+	title: string;
+	type: string;
+	alt?: string;
+}
+
+const genres: Genre[] = [
 	{
 		type: "horror",
 		title: "horror",
@@ -48,7 +57,7 @@ const genres = [
 	},
 ];
 
-const Main = ({ children = null }) => {
+const Main = () => {
 	const [activeTab, setActiveTab] = useState(tabs.movie);
 	const [isLoading, setLoading] = useState(true);
 	const [moviesList, setMoviesList] = useState<Movie[]>([]);

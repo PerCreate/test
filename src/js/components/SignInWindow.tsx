@@ -4,7 +4,7 @@ import Window from "js/shared/Window";
 import Checkbox from "js/UI/Checkbox";
 import Input from "js/UI/Input";
 import { getAPI } from "js/utils/Utils";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { connect } from "react-redux";
 
 interface inputState {
@@ -12,7 +12,17 @@ interface inputState {
 	password: { validate: boolean };
 }
 
-const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
+interface SignInWindowProps {
+	isOpen: boolean;
+	onClose: Dispatch<SetStateAction<boolean>>;
+	dispatchSignIn: typeof onSignIn;
+}
+
+const mapDispatch = {
+	dispatchSignIn: onSignIn,
+};
+
+const SignInWindow = ({ isOpen, onClose, dispatchSignIn }: SignInWindowProps) => {
 	const [loginValue, setLoginValue] = useState("");
 	const [passwordValue, setPasswordValue] = useState("");
 	const [inputState, setInputState] = useState<inputState>({
@@ -20,7 +30,7 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 		password: { validate: true },
 	});
 	const [rememberMe, setRememberMe] = useState(false);
-	//working validate
+
 	const onSignIn = () => {
 		const getData = async () => {
 			try {
@@ -70,15 +80,17 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 	const onCloseWindow = () => {
 		setLoginValue("");
 		setPasswordValue("");
-		onClose();
+		onClose(true);
 	};
 
-	const onLoginInput = (e) => {
-		setLoginValue(e.target.value);
+	const onLoginInput = (e: React.FormEvent<HTMLInputElement>) => {
+		const target = e.target as HTMLInputElement;
+		setLoginValue(target.value);
 	};
 
-	const onPasswordInput = (e) => {
-		setPasswordValue(e.target.value);
+	const onPasswordInput = (e: React.FormEvent<HTMLInputElement>) => {
+		const target = e.target as HTMLInputElement;
+		setPasswordValue(target.value);
 	};
 
 	return (
@@ -94,13 +106,13 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 				<>
 					<Input
 						classes={`_small ${inputState.login.validate ? "" : "_wrong"}`}
-						onInput={(e) => onLoginInput(e)}
+						onInput={onLoginInput}
 						placeholder="Логин"
 						value={loginValue}
 					/>
 					<Input
 						classes={`_mt24 _small ${inputState.password.validate ? "" : "_wrong"}`}
-						onInput={(e) => onPasswordInput(e)}
+						onInput={onPasswordInput}
 						placeholder="Пароль"
 						value={passwordValue}
 					/>
@@ -114,10 +126,6 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }) => {
 			}
 		</Window>
 	);
-};
-
-const mapDispatch = {
-	dispatchSignIn: onSignIn,
 };
 
 export default connect(null, mapDispatch)(SignInWindow);

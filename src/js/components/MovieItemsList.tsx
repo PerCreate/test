@@ -5,7 +5,19 @@ import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import MovieItem from "./MovieItem";
 
-const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null }) => {
+interface MovieItemsListProps {
+	movies: Movie[];
+	itemsPerPage: number;
+	search: string;
+}
+
+const mapState = (state: rootReducerState) => {
+	return {
+		search: state.searchMovie || "",
+	};
+};
+
+const MovieItemsList = ({ movies, itemsPerPage = movies.length, search }: MovieItemsListProps) => {
 	const [isFirstItem, setIsFirstItem] = useState(true);
 	const [isLastItem, setIsLastItem] = useState(false);
 	const [isSmallList, setIsSmallList] = useState(false);
@@ -95,7 +107,7 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 		}
 	};
 
-	const onListTouch = (e) => {
+	const onListTouch = (e: React.TouchEvent) => {
 		e.stopPropagation();
 	};
 
@@ -131,12 +143,6 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 			)}
 		</div>
 	);
-};
-
-const mapState = (state: rootReducerState) => {
-	return {
-		search: state.searchMovie,
-	};
 };
 
 export default connect(mapState)(MovieItemsList);
