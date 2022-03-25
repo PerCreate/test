@@ -95,8 +95,15 @@ const MovieItemsList = ({ movies, itemsPerPage = movies.length, search = null })
 		}
 	};
 
+	const onListTouch = (e) => {
+		e.stopPropagation();
+	};
+
 	return (
-		<div className={`MovieItemsList ${isSmallList ? "_small" : ""}`}>
+		<div
+			className={`MovieItemsList ${isSmallList ? "_small" : ""}`}
+			onTouchStart={(e) => onListTouch(e)}
+		>
 			{itemsPerPage <= moviesShow?.length && (
 				<>
 					{!isFirstItem && !search && (

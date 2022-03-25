@@ -14,8 +14,9 @@ body {
 
 .container {
 	position: relative;
-	padding: 34px 130px;
-	width: 1440px;
+	padding: 34px $maxAppPadding;
+	padding-bottom: 0 !important;
+	width: $maxAppWidth;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -91,6 +92,13 @@ $maxHeaderHeight: 35px;
 						min-height: unset;
 					}
 				}
+			}
+		}
+
+		.Footer {
+			&-content {
+				left: 0;
+				padding: 28px 50px;
 			}
 		}
 	}
@@ -279,6 +287,16 @@ $maxHeaderHeight: 35px;
 
 		.About {
 			padding: 0 0 0 50px;
+
+			&-comments {
+				.comments-container {
+					padding-right: 50px;
+
+					.button-container {
+						right: 50px;
+					}
+				}
+			}
 		}
 	}
 }

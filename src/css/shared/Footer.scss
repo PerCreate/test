@@ -1,0 +1,27 @@
+.Footer {
+	margin-top: 72px;
+	position: relative;
+	width: 100vw;
+	height: fit-content;
+	min-height: 120px;
+
+	&-content {
+		display: flex;
+		position: absolute;
+		width: 100vw;
+		height: 100%;
+		padding: 28px calc((100vw - $maxAppWidth) / 2 + $maxAppPadding);
+		background-color: #f2f2f2;
+		left: calc((100vw - $maxAppWidth) / -2 - $maxAppPadding);
+	}
+
+	&-logo {
+		background: url("/img/footer_logo.svg");
+		width: 32px;
+		height: 64px;
+	}
+
+	&-info {
+		margin-left: 40px;
+	}
+}

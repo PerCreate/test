@@ -15,13 +15,14 @@ const MovieItem = ({ img, title, description, alt = "movieCover", to }) => {
 	};
 
 	return (
-		<div className="MovieItem" onClick={onAbout}>
+		<div className="MovieItem">
 			<div
 				className="img-container"
 				data-description={description}
 				style={{
 					background: `url("${img}") no-repeat center / cover`,
 				}}
+				onClick={onAbout}
 			></div>
 			<span className="title">{title}</span>
 		</div>
