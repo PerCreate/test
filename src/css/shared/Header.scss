@@ -27,6 +27,9 @@
 	&-search {
 		display: flex;
 		align-items: flex-end;
-		margin-left: 170px;
+
+		&._logIn {
+			margin-left: 170px;
+		}
 	}
 }

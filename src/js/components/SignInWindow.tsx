@@ -80,7 +80,7 @@ const SignInWindow = ({ isOpen, onClose, dispatchSignIn }: SignInWindowProps) =>
 	const onCloseWindow = () => {
 		setLoginValue("");
 		setPasswordValue("");
-		onClose(true);
+		onClose(!isOpen);
 	};
 
 	const onLoginInput = (e: React.FormEvent<HTMLInputElement>) => {

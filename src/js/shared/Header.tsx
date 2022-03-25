@@ -68,7 +68,7 @@ const Header = (props: HeaderProps) => {
 	};
 
 	const saveName = (e: FocusEvent<HTMLInputElement, Element>) => {
-		dispatchNameInput({ userName: userName });
+		userName.length && dispatchNameInput({ userName: userName });
 	};
 
 	const onSearchInput = (e: FormEvent<HTMLInputElement>) => {
@@ -82,7 +82,7 @@ const Header = (props: HeaderProps) => {
 			<NavLink className="Header-logo" to="/main">
 				{!isSmallerViewportSize && "Видеосервис"}
 			</NavLink>
-			<div className="Header-search">
+			<div className={`Header-search ${isAuth ? "_logIn" : ""}`}>
 				<Input onInput={onSearchInput} placeholder="Поиск..." value={searchValue} />
 				{!isDevice780 && <Button classes="_flat _ml15" callback={onSearch} name="Найти" />}
 			</div>
