@@ -137,6 +137,14 @@ $maxHeaderHeight: 35px;
 		padding: 34px 10px;
 		font-size: 14px;
 
+		.Header {
+			&-search {
+				&._logIn {
+					margin-left: 0;
+				}
+			}
+		}
+
 		.Main {
 			width: 100%;
 

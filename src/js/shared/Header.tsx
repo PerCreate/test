@@ -5,13 +5,13 @@ import { FocusEvent, FormEvent, useCallback, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { rootReducerState } from "js/redux/rootReducer";
-import { action, data, onLogOut, onSearchAction, onUserNameInput } from "js/redux/actions";
+import { onLogOut, onSearchAction, onUserNameInput } from "js/redux/actions";
 import SignInWindow from "js/components/SignInWindow";
 
 interface HeaderProps {
-	dispatchNameInput: (data: data) => action;
-	dispatchSearch: (data: data) => action;
-	dispatchGotOut: (data: data) => action;
+	dispatchNameInput: typeof onSearchAction;
+	dispatchSearch: typeof onUserNameInput;
+	dispatchGotOut: typeof onLogOut;
 	isAuth: boolean;
 	userNameStorage: string;
 }
