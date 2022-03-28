@@ -60,27 +60,28 @@ const About = ({
 		const getData = async () => {
 			try {
 				if (params?.id) {
-					var dataMovie = await axios.get(getAPI(`movie/${+params.id}`, ""));
+					const currentMovieId = +params.id as number;
+
+					var dataMovie = await axios.get(getAPI(`movie/${currentMovieId}`, ""));
 					var { backdrop_path, genres, id, title, overview, release_date } =
 						dataMovie.data;
+					setMovie({
+						backdrop_path,
+						genres,
+						id,
+						title,
+						overview,
+						release_date,
+					});
+					if (stateComments && stateComments[currentMovieId]) {
+						setComments(
+							stateComments[currentMovieId].filter(
+								(comment: comment) => comment.movieId === currentMovieId
+							)
+						);
+					}
+					setLoading(false);
 				}
-				setMovie({
-					backdrop_path,
-					genres,
-					id,
-					title,
-					overview,
-					release_date,
-				});
-				if (stateComments && stateComments[movieId]) {
-					setComments(
-						stateComments[movieId].filter(
-							(comment: comment) => comment.movieId === movieId
-						)
-					);
-				}
-
-				setLoading(false);
 			} catch (e) {
 				console.log(e);
 			}
