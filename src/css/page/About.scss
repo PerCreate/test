@@ -44,8 +44,8 @@
 
 			.chart {
 				display: flex;
-				align-items: flex-end;
-				height: 24px;
+				align-items: flex-start;
+				height: fit-content;
 
 				.title {
 					width: 120px;
