@@ -54,7 +54,6 @@
 		height: 434px;
 
 		.img-container {
-			padding: $padding;
 			position: relative;
 			margin-bottom: 16px;
 			width: 100%;
@@ -63,11 +62,19 @@
 			cursor: pointer;
 			border-radius: 8px;
 
+			.wrapper {
+				width: 100%;
+				height: 100%;
+				background: rgba(#333333, 0);
+				border-radius: 8px;
+				cursor: pointer;
+			}
+
 			&::before {
 				position: absolute;
 				display: inline-block;
-				top: 30px;
-				width: calc(100% - (2 * $padding));
+				padding: $padding;
+				padding-top: 16px;
 				content: attr(data-description);
 				line-height: 140%;
 				opacity: 0;
@@ -78,8 +85,11 @@
 				opacity: 0.8;
 
 				&::before {
-					top: $padding;
 					opacity: 1;
+				}
+
+				.wrapper {
+					background: rgba(#333333, 0.8);
 				}
 			}
 		}

@@ -12,13 +12,9 @@
 	}
 
 	&._flat {
+		padding: 9px 16px;
 		color: #e5261e;
 		background-color: #ffffff;
-
-		&:hover {
-			color: #ffffff;
-			background-color: #e5261e;
-		}
 	}
 
 	&._disabled {

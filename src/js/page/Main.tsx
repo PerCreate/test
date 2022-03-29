@@ -37,22 +37,22 @@ export interface Genre {
 const genres: Genre[] = [
 	{
 		type: "horror",
-		title: "horror",
+		title: "Ужасы",
 		img: "emoji/horror.svg",
 	},
 	{
 		type: "comedy",
-		title: "comedy",
+		title: "Комедии",
 		img: "emoji/comedy.svg",
 	},
 	{
 		type: "drams",
-		title: "drams",
+		title: "Драмы",
 		img: "emoji/drams.svg",
 	},
 	{
 		type: "fantasy",
-		title: "fantasy",
+		title: "Фантастика",
 		img: "emoji/fantasy.svg",
 	},
 ];

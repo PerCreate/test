@@ -31,7 +31,9 @@ const MovieItem = ({ img, title, description, alt = "movieCover", to }: MovieIte
 					background: `url("${img}") no-repeat center / cover`,
 				}}
 				onClick={onAbout}
-			></div>
+			>
+				<div className="wrapper"></div>
+			</div>
 			<span className="title">{title}</span>
 		</div>
 	);

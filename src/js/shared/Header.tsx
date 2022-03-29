@@ -96,7 +96,7 @@ const Header = (props: HeaderProps) => {
 							value={userName}
 							onBlur={saveName}
 						/>
-						<Button callback={onLogOut} name="Выйти" />
+						<Button classes="_flat" callback={onLogOut} name="Выйти" />
 					</div>
 				) : (
 					<div className="_justifyEnd">

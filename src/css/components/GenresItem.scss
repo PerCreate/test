@@ -2,10 +2,16 @@
 	position: relative;
 	width: 280px;
 	height: 208px;
-	opacity: 0.8;
 	box-shadow: inset 0px 0px 16px rgba(0, 0, 0, 0.15);
 	border-radius: 6px;
 	cursor: pointer;
+	opacity: 0.8;
+	color: #ffffff;
+	font-size: 1.25em;
+
+	&:hover {
+		opacity: 1;
+	}
 
 	.img-container {
 		position: relative;
