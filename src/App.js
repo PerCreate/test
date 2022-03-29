@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import Field from "./Field";
+
+function getRandomNumber(min, max) {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [firstFieldChosen, setFirstFieldChosen] = useState([]);
+
+	const onChooseFirstField = () => {
+
+	};
+
+	return (
+		<div className="App">
+			<Field range={{ firstNumber: 1, lastNumber: 19 }} onChoose={onChooseFirstField} />
+		</div>
+	);
 }
 
 export default App;
