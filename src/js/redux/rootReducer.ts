@@ -56,7 +56,8 @@ export const rootReducer = (state: rootReducerState = initialState, action: acti
 			localStorage.removeItem("userName");
 			return {
 				...state,
-				user_token: ''
+				user_token: '',
+				userName: ''
 			};
 		case USER_NAME_INPUT:
 			localStorage.setItem("userName", action.data.userName || '');
