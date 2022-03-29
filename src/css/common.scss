@@ -139,6 +139,7 @@ $maxHeaderHeight: 35px;
 
 		.Header {
 			&-search {
+				margin-left: 0;
 				&._logIn {
 					margin-left: 0;
 				}
@@ -161,6 +162,20 @@ $maxHeaderHeight: 35px;
 					margin: 10px 0;
 					flex: 0 0 24%;
 					height: 130px;
+				}
+			}
+
+			.ChannelItemsList {
+				.ChannelItem {
+					.img-container {
+						width: 130px;
+						flex-shrink: 0;
+
+						.img {
+							width: 100px;
+							height: 60px;
+						}
+					}
 				}
 			}
 		}

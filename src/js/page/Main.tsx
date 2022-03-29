@@ -1,4 +1,5 @@
 import axios from "axios";
+import ChannelItemsList from "js/components/ChannelItemsList";
 import GenresItemsList from "js/components/GenreItemsList";
 import Loader from "js/components/Loader";
 import MainTabs from "js/components/MainTabs";
@@ -122,6 +123,11 @@ const Main = () => {
 										itemsPerPage={itemsPerPage}
 									/>
 									<GenresItemsList genres={genres} />
+								</>
+							)}
+							{activeTab === tabs["channels"] && (
+								<>
+									<ChannelItemsList />
 								</>
 							)}
 						</>

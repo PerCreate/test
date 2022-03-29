@@ -15,7 +15,11 @@ const Scrollbar = ({ children }: { children: any }) => {
 	const [btnScrollbarHeight, setBtnScrollbarHeight] = useState(0);
 	const [isBtnDown, setIsBtnDown] = useState(false);
 	const [isWheelEvent, setIsWheelEvent] = useState(true);
+	const [isMoved, setIsMoved] = useState(false);
 	//working блочить кастомный скролл при touchmove внутри content
+
+	const setWrapperMoved = debounce(() => setIsMoved(false), 1000);
+
 	useEffect(() => {
 		const obs = new MutationObserver(debounce(setInitial, 80));
 		obs.observe(wrapper.current as HTMLDivElement, { childList: true, subtree: true });
@@ -31,6 +35,10 @@ const Scrollbar = ({ children }: { children: any }) => {
 	useEffect(() => {
 		setCurrentPosition();
 	}, [startPosBtnY]);
+
+	useEffect(() => {
+		isMoved && setWrapperMoved();
+	}, [isMoved]);
 
 	const setInitial = () => {
 		const currentWrapper = wrapper.current as HTMLDivElement;
@@ -95,6 +103,7 @@ const Scrollbar = ({ children }: { children: any }) => {
 	};
 
 	const btnScrollbarDown = (e: React.MouseEvent | React.TouchEvent) => {
+		e.stopPropagation();
 		var currentPosition: number;
 		const target = e.target as HTMLDivElement;
 		if (target.id !== "wrapper-scrollbar-button" && e.type !== "touchstart") {
@@ -115,6 +124,7 @@ const Scrollbar = ({ children }: { children: any }) => {
 	};
 
 	const btnScrollbarMove = (e: React.MouseEvent | React.TouchEvent) => {
+		e.stopPropagation();
 		if (e.type === "touchmove") {
 			e = e as React.TouchEvent;
 			setCurrentPosBtnY(-e.changedTouches[0].clientY);
@@ -125,6 +135,7 @@ const Scrollbar = ({ children }: { children: any }) => {
 	};
 
 	const btnScrollbarUp = (e: React.MouseEvent | React.TouchEvent) => {
+		e.stopPropagation();
 		const currentBtnScrollbar = btnScrollbar.current as HTMLDivElement;
 
 		setStartMovingPosBtnY(currentBtnScrollbar.offsetTop);
@@ -133,8 +144,10 @@ const Scrollbar = ({ children }: { children: any }) => {
 	};
 
 	const wheelEvent = (e: React.WheelEvent) => {
+		e.stopPropagation();
 		const { deltaY } = e;
 		setIsWheelEvent(true);
+		setIsMoved(true);
 		setStartPosBtnY(startPosBtnY + deltaY);
 	};
 
@@ -142,7 +155,7 @@ const Scrollbar = ({ children }: { children: any }) => {
 		<>
 			{/* {!isDataSet && <Loader />} */}
 			<div
-				className={`Wrapper ${isBtnDown ? "_moving" : ""}`}
+				className={`Wrapper ${isBtnDown || isMoved ? "_moving" : ""}`}
 				id="wrapper"
 				ref={wrapper as RefObject<HTMLDivElement>}
 				onMouseDown={(e) => btnScrollbarDown(e)}
