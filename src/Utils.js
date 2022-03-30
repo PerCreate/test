@@ -61,16 +61,3 @@ export function compareValues(userChoice, randomChoice, winConditions = winCondi
 
 	return false;
 }
-
-export function debounce(fn, delay) {
-	var timer = null;
-	console.log(fn);
-	return function () {
-		var context = this;
-		var args = arguments;
-		clearTimeout(timer);
-		timer = setTimeout(() => {
-			fn.apply(context, args);
-		}, delay);
-	};
-}

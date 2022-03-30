@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Field from "./Field";
-import { compareValues, debounce, getRandomNumbersObject } from "./Utils";
+import Loader from "./Loader";
+import { compareValues, getRandomNumbersObject } from "./Utils";
 
 const winConditions = [
 	{
@@ -17,6 +18,8 @@ function App() {
 	const [firstFieldChosen, setFirstFieldChosen] = useState([]);
 	const [secondFieldChosen, setSecondFieldChosen] = useState([]);
 	const [isResultAvailable, setResultAvailable] = useState(false);
+	const [gameState, setGameState] = useState({ result: null, finished: false });
+	const [isLoading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [randomNumbers, setRandomNumbers] = useState(getRandomNumbersObject());
 
@@ -53,6 +56,8 @@ function App() {
 			secondField: [...secondFieldChosen],
 		};
 		const isTicketWon = compareValues(userChoice, randomNumbers, winConditions);
+		setLoading(true);
+		setGameState((prev) => ({ ...prev, finished: true, result: isTicketWon }));
 		await sentRequest(userChoice, isTicketWon, 2);
 	};
 
@@ -69,9 +74,11 @@ function App() {
 				});
 			} catch (e) {
 				if (currentTry <= repeat) {
+					currentTry += 1;
 					setTimeout(() => get(), 2000);
 				} else {
-					setError(e);
+					setError(e.message);
+					setLoading(false);
 				}
 			}
 		};
@@ -82,6 +89,22 @@ function App() {
 	const randomNumbersHandler = () => {
 		setRandomNumbers(getRandomNumbersObject());
 	};
+
+	const startNewGame = () => {
+		setFirstFieldChosen([]);
+		setSecondFieldChosen([]);
+		setError(null);
+		setRandomNumbers(getRandomNumbersObject());
+		setGameState((prev) => ({ ...prev, finished: false }));
+	};
+
+	if (isLoading) {
+		return (
+			<div className="App">
+				<Loader />
+			</div>
+		);
+	}
 
 	return (
 		<div className="App">
@@ -103,12 +126,26 @@ function App() {
 				currentChosen={secondFieldChosen}
 				onChoose={onChooseSecondField}
 			/>
-			<div
-				className={`Result ${isResultAvailable ? "" : "_disable"}`}
-				onClick={() => getResult()}
-			>
-				Показать результат
-			</div>
+			{gameState.finished ? (
+				<>
+					<div className="Result-game">
+						{gameState.result
+							? "Поздравляю, ты победил!!!"
+							: "Ты проиграл. Давай еще раз!!!"}
+					</div>
+					<div className={`Result`} onClick={() => startNewGame()}>
+						Сыграть еще раз!
+					</div>
+				</>
+			) : (
+				<div
+					className={`Result ${isResultAvailable ? "" : "_disable"}`}
+					onClick={() => getResult()}
+				>
+					Показать результат
+				</div>
+			)}
+
 			{error && (
 				<div className="Error">
 					{error}
