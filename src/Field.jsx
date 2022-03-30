@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
-const Field = ({ range, onChoose }) => {
+const Field = ({ range, onChoose, maxChoose, currentChosen }) => {
 	const [field, setField] = useState([]);
 	const { firstNumber, lastNumber } = range;
 
@@ -13,11 +13,22 @@ const Field = ({ range, onChoose }) => {
 		setField(tempField);
 	}, [firstNumber, lastNumber]);
 
+	const onChooseCell = (cell, doUnsetCell) => {
+		if (currentChosen.length < maxChoose || doUnsetCell) {
+			onChoose(cell, doUnsetCell);
+		}
+	};
+
 	return (
 		<div className="Field">
 			{field.map((cell, index) => {
+				const chosen = currentChosen.includes(cell);
 				return (
-					<div onClick={onChoose(cell)} key={cell + index} className="Field-cell">
+					<div
+						onClick={() => onChooseCell(cell, chosen)}
+						key={cell + index}
+						className={`Field-cell ${chosen ? "_chosen" : ""}`}
+					>
 						{cell}
 					</div>
 				);

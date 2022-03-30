@@ -1,0 +1,81 @@
+* {
+	box-sizing: border-box;
+}
+
+.App {
+	position: relative;
+	padding: 14px 16px;
+	font-size: 14px;
+
+	.Ticket {
+		position: relative;
+		font-size: 16px;
+		&-info {
+			margin-top: 10px;
+			margin-bottom: 10px;
+			font-size: 14px;
+		}
+
+		.wand {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 18px;
+			height: 18px;
+			background: url("/img/magic-wand.svg") no-repeat center;
+			cursor: pointer;
+		}
+	}
+
+	.Field {
+		display: flex;
+		flex-wrap: wrap;
+		overflow: hidden;
+
+		&-cell {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 1px solid #dddddd;
+			box-sizing: border-box;
+			border-radius: 5px;
+			width: 40px;
+			height: 40px;
+			flex-shrink: 0;
+			flex-grow: 0;
+
+			&._chosen {
+				transform: scale(0.9);
+				background: #ffd205;
+				border: none;
+				// border-radius: 5px;
+			}
+		}
+	}
+
+	.Result {
+		margin-top: 15px;
+		padding: 13px 26px;
+		border: 1px solid #000000;
+		border-radius: 40px;
+		text-align: center;
+
+		&._disable {
+			background-color: #928d8d;
+			color: #0e0d0d;
+			cursor: default;
+		}
+	}
+
+	.Error {
+		position: absolute;
+		left: 0;
+		bottom: -50px;
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 15px;
+		background-color: red;
+		color: #fff;
+		width: 100%;
+	}
+}
